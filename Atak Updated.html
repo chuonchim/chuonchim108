@@ -1,0 +1,2544 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>គណនាតម្រាអត្ត:</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Font: Suwannaphum for Khmer text -->
+    <link href="https://fonts.googleapis.com/css2?family=Suwannaphum&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- html2canvas for capturing div as image -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        body {
+            font-family: 'Suwannaphum', sans-serif; /* Apply Suwannaphum font for general text */
+            background-color: #0a0a0a; /* Deep black for glossy look */
+        }
+
+        h1 {
+            font-family: 'Suwannaphum', sans-serif; /* Explicitly set or remove this rule to inherit from body */
+        }
+
+        /* Custom styles for better appearance */
+        .container-box {
+            background-color: #ffffff;
+            padding: 2rem; /* 32px */
+            border-radius: 1rem; /* 16px */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-xl */
+            width: 100%;
+            max-width: 28rem; /* max-w-md */
+            border: 1px solid #93c5fd; /* border-blue-300 */
+            transform: scale(1);
+            transition: all 0.3s ease-in-out;
+            position: relative; /* Added for absolute positioning of dropdown */
+        }
+        .container-box:hover {
+            transform: scale(1.02); /* Slightly larger scale on hover */
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.04); /* shadow-2xl */
+        }
+
+        /* Input label style */
+        .input-label {
+            display: block;
+            color: #4b5563; /* text-gray-700 */
+            font-size: 1.125rem; /* text-lg */
+            font-weight: 600; /* font-semibold */
+            margin-bottom: 0.5rem; /* mb-2 */
+            text-align: center; /* Center the label text */
+        }
+        /* Input field style */
+        .input-field {
+            padding: 0.75rem 1rem; /* py-3 px-4 */
+            border: 1px solid #d1d5db; /* border-gray-300 */
+            border-radius: 0.5rem; /* rounded-lg */
+            font-size: 1.125rem; /* text-xl */
+            color: #1f2937; /* text-gray-800 */
+            transition: all 0.2s ease-in-out;
+            text-align: center; /* Center the input value */
+            display: block; /* Ensure it takes its own line for mx-auto to work */
+            margin-left: auto; /* Center horizontally */
+            margin-right: auto; /* Center horizontally */
+            width: 24; /* Fixed width as before */
+        }
+        .input-field:focus {
+            outline: none;
+            border-color: #3b82f6; /* focus:border-blue-500 */
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5); /* focus:ring-blue-500 */
+        }
+
+        .button-style {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 0.75rem 1.5rem; /* py-3 px-6 */
+            border-radius: 0.5rem; /* rounded-lg */
+            font-weight: 700; /* font-bold */
+            color: #ffffff; /* text-white */
+            transition: all 0.3s ease-in-out; /* Smooth transition for all properties */
+            transform: translateY(0); /* Initial state for transform */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* subtle shadow */
+            background-image: linear-gradient(to right, #2563eb, #1d4ed8); /* from-blue-600 to-blue-700 */
+        }
+        .button-style:hover {
+            transform: translateY(-0.25rem); /* Lift up more on hover */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.04); /* Stronger shadow on hover */
+            background-image: linear-gradient(to right, #1d4ed8, #1e40af); /* Darker gradient on hover */
+        }
+        .button-style:active {
+            transform: translateY(0); /* Push down on click */
+            box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.06); /* Smaller shadow on click */
+        }
+        .button-style:focus {
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.5); /* Blue ring on focus */
+        }
+        .button-style:disabled {
+            cursor: not-allowed;
+            background-image: linear-gradient(to right, #93c5fd, #60a5fa); /* bg-blue-300 to blue-400 */
+            transform: translateY(0);
+            box-shadow: none;
+        }
+        .result-display {
+            margin-top: 0.75rem; /* Changed from 1.5rem to 0.75rem (mt-3) */
+            padding: 1rem 1.5rem; /* Adjusted padding for better internal spacing (changed from 1.5rem to 1rem vertical) */
+            border-radius: 0.5rem; /* rounded-lg */
+            /* text-align: center; Removed as content is now flex-aligned */
+            font-size: 1.5rem; /* text-2xl */
+            font-weight: 700; /* font-bold */
+            background-color: #eff6ff; /* bg-blue-50 */
+            color: #1e40af; /* text-blue-800 */
+            border: 1px solid #bfdbfe; /* border-blue-200 */
+            overflow: visible; /* Ensure content is not clipped */
+            position: relative; /* Added for SVG positioning */
+            display: flex; /* Added flexbox for internal layout */
+            flex-direction: column; /* Stack children vertically */
+            gap: 0.25rem; /* Reduced gap between result lines */
+        }
+        .error-message {
+            margin-top: 1rem; /* mt-4 */
+            padding: 0.75rem; /* p-3 */
+            border-radius: 0.5rem; /* rounded-lg */
+            font-size: 0.875rem; /* text-sm */
+            font-weight: 500; /* font-medium */
+            background-color: #fee2e2; /* bg-red-100 */
+            color: #b91c1c; /* text-red-700 */
+            border: 1px solid #fca5a5; /* red-200 */
+        }
+        .hidden {
+            display: none;
+        }
+        /* Custom class for fixed-width number display */
+        .number-cell {
+            display: inline-flex; /* Changed to inline-flex to center SVG content */
+            align-items: center;
+            justify-content: center;
+            width: 2.8rem; /* Back to original size */
+            height: 2.8rem; /* Back to original size */
+            text-align: center;
+            color: #1e40af; /* Original blue color for all numbers */
+            transition: transform 0.2s ease-in-out, color 0.2s ease-in-out; /* Smooth transition for hover effects */
+            cursor: default; /* No longer clickable */
+            /* Explicit font size for text characters to match SVG sizing */
+            font-size: 1.3rem; /* Back to original size */
+        }
+        .number-cell:hover {
+            transform: scale(1); /* No scale on hover as lines are now automatic */
+            color: #1e40af; /* No color change on hover */
+        }
+        .number-cell svg {
+            width: 100%;
+            height: 100%;
+            display: block; /* Ensure SVG is block level inside flex container */
+            /* The fill for SVG paths will be set to 'currentColor' in JS,
+               so it inherits the text color of the parent .number-cell */
+        }
+        /* Specific style for download button to override general button-style for its background */
+        #downloadBtn {
+            background-image: linear-gradient(to right, #10b981, #059669); /* Green gradient */
+        }
+        #downloadBtn:hover {
+            background-image: linear-gradient(to right, #059669, #047857); /* Darker green gradient on hover */
+        }
+
+        /* Style for the new creation section */
+        .new-creation-section {
+            background-color: #ffffff;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            width: 100%;
+            max-width: 28rem;
+            border: 1px solid #93c5fd;
+            text-align: center;
+        }
+
+        /* Styles for the new icon button (now with text) */
+        .icon-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 1rem; /* Smaller padding than main buttons */
+            border-radius: 0.5rem; /* Rounded corners like other buttons */
+            font-size: 1rem; /* Smaller font size for text */
+            font-weight: 600; /* Slightly bold text */
+            color: #ffffff;
+            background-color: #6b7280; /* Gray background */
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            white-space: nowrap; /* Prevent text from wrapping */
+        }
+        .icon-button:hover {
+            background-color: #4b5563; /* Darker gray on hover */
+            transform: translateY(-0.125rem);
+            box-shadow: 0 8px 10px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .icon-button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.06);
+        }
+        .icon-button:focus {
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(107, 114, 128, 0.5); /* Gray ring on focus */
+        }
+
+        /* Styles for the "Buy Coffee" button */
+        #buyCoffeeBtn {
+            background-image: linear-gradient(to right, #a0522d, #8b4513); /* Brown/saddlebrown gradient */
+        }
+        #buyCoffeeBtn:hover {
+            background-image: linear-gradient(to right, #8b4513, #69340f); /* Darker brown on hover */
+        }
+
+        /* New style for highlighted numbers (Red) */
+        .highlight-red {
+            color: #ef4444; /* Red color for highlighted text */
+            font-weight: bold;
+        }
+
+        /* New style for highlighted numbers (Light Green - replacing yellow) */
+        .highlight-light-green {
+            color: #86efac; /* Tailwind green-300 - Adjusted shade */
+            font-weight: bold;
+        }
+
+        /* Existing Green style (darker green) */
+        .highlight-green {
+            color: #22c55e; /* Tailwind green-500 */
+            font-weight: bold;
+            /* Removed text-shadow for glow effect */
+        }
+        /* Style for the message box */
+        .message-box {
+            margin-top: 1rem;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            background-color: #d1fae5; /* green-100 */
+            color: #065f46; /* green-700 */
+            border: 1px solid #a7f3d0; /* green-200 */
+            text-align: center;
+        }
+        .message-box.error {
+            background-color: #fee2e2; /* red-100 */
+            color: #b91c1c; /* red-700 */
+            border: 1px solid #fca5a5; /* red-200 */
+        }
+        /* Canvas specific styles */
+        .drawing-canvas { /* Changed from #lineDrawingCanvas to .drawing-canvas */
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Disable pointer events for drawing on canvas directly */
+            z-index: 10; /* Ensure canvas is on top of numbers for drawing */
+            background: transparent; /* Make canvas background transparent */
+            display: block; /* Always visible to occupy space, clear for drawing */
+        }
+        /* Style for the container of number cells, needed for proper positioning */
+        .number-row-container {
+            display: flex;
+            justify-content: space-around;
+            /* Removed margin-bottom to rely on parent's gap */
+            height: 2.8rem; /* Reduced height for rows */
+            align-items: center; /* Center items vertically */
+        }
+        /* Adjust hr margin to compensate for new row container margin */
+        hr {
+            margin-top: 0.03125rem; /* Reduced from 0.0625rem to 0.03125rem (0.5px) */
+            margin-bottom: 0.03125rem; /* Reduced from 0.0625rem to 0.03125rem (0.5px) */
+            border-width: 1px; /* Slightly thinner border */
+        }
+
+        /* Styles for the new plus button and dropdown */
+        .dropdown-container {
+            position: absolute;
+            top: 1rem; /* Adjust as needed */
+            right: 1rem; /* Adjust as needed */
+            z-index: 20; /* Ensure it's above other content */
+        }
+
+        .plus-button {
+            background-color: #2563eb; /* Blue like main buttons */
+            color: white;
+            border-radius: 9999px; /* Fully rounded */
+            width: 2.5rem; /* Small size */
+            height: 2.5rem; /* Small size */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem; /* Plus icon size */
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
+        }
+
+        .plus-button:hover {
+            background-color: #1d4ed8;
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: calc(100% + 0.5rem); /* Position below the button with a small gap */
+            right: 0;
+            background-color: #ffffff;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            min-width: 12rem; /* Ensure enough width for text */
+            overflow: hidden; /* Hide anything outside rounded corners */
+            z-index: 20; /* Ensure it's above other content */
+            border: 1px solid #bfdbfe; /* Light blue border */
+        }
+
+        .dropdown-item {
+            display: flex; /* Changed to flex */
+            align-items: center; /* Center vertically */
+            justify-content: center; /* Center horizontally */
+            padding: 0.75rem 1rem;
+            color: #4b5563; /* text-gray-700 */
+            font-size: 1rem;
+            font-weight: 500;
+            transition: background-color 0.2s, color 0.2s;
+            cursor: pointer;
+        }
+
+        .dropdown-item:hover {
+            background-color: #eff6ff; /* Light blue hover */
+            color: #2563eb; /* Darker blue text on hover */
+        }
+
+        /* New styles for current time/day/month display boxes */
+        .current-data-box {
+            background-color: #f0f9ff; /* blue-50 */
+            border: 1px solid #bfdbfe; /* blue-200 */
+            border-radius: 0.5rem;
+            padding: 0.75rem; /* p-3 */
+            text-align: center;
+            flex: 1; /* Make boxes take equal space */
+            min-width: 0; /* Allow shrinking */
+            margin: 0.25rem; /* Small margin between boxes */
+        }
+        .current-data-box .label {
+            font-size: 0.875rem; /* text-sm */
+            color: #4b5563; /* text-gray-700 */
+            margin-bottom: 0.25rem; /* mb-1 */
+            font-weight: 600;
+        }
+        .current-data-box .value {
+            font-size: 1.25rem; /* text-xl */
+            font-weight: 700;
+            color: #1e40af; /* blue-800 */
+        }
+
+        /* Style for individual result lines in Chomras Ayu Chor */
+        .result-line {
+            width: 100%; /* Ensure it takes full width of its parent */
+            display: flex;
+            align-items: center; /* Vertically centers items */
+            justify-content: space-between; /* Pushes units to the end */
+            padding: 0.5rem 0;
+            border-bottom: 1px dashed #e2e8f0;
+            font-size: 1.1rem;
+            color: #4b5563;
+        }
+        .result-line:last-child {
+            border-bottom: none; /* No border for the last item */
+        }
+        .result-line span { /* Apply to all spans within result-line for consistent vertical alignment */
+            display: inline-block; /* Essential for setting width/margin */
+            vertical-align: middle; /* Align text vertically in the middle */
+        }
+        .result-line .label-and-value-group { /* New wrapper for label and value */
+            display: flex;
+            align-items: center;
+            flex-shrink: 0; /* Prevents this group from shrinking */
+        }
+        .result-line .label-text { /* New class for labels */
+            width: 9rem; /* Keep fixed width */
+            min-width: 9rem;
+            text-align: left;
+            padding-left: 1rem; /* Padding from the left edge of the container */
+            flex-shrink: 0;
+        }
+        .result-line .value-display {
+            font-size: 1.5rem; /* Larger font for the actual value */
+            font-weight: 700; /* Bold for the value */
+            color: #1e40af; /* Blue color for values */
+            /* Removed fixed width, it will now just take content width */
+            text-align: left; /* Align with label if no fixed width */
+            margin-left: 0.5rem; /* Small gap between label and number */
+            flex-shrink: 0;
+        }
+        .result-line .unit-text { /* New class for units */
+            /* Removed flex-grow and text-align, as space-between on parent handles positioning */
+            padding-right: 1rem; /* Padding from the right edge of the container */
+            flex-shrink: 0; /* Ensures it takes only necessary space */
+        }
+
+        /* Styles for the new Popup Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.75); /* Dark overlay */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 50; /* Ensure it's on top of everything */
+        }
+
+        .modal-content {
+            background-color: #ffffff;
+            padding: 1.5rem; /* p-6 */
+            border-radius: 0.75rem; /* rounded-lg */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            position: relative;
+            width: 90%; /* Responsive width */
+            max-width: 24rem; /* max-w-sm */
+            text-align: center;
+            border: 1px solid #93c5fd; /* border-blue-300 */
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 0.5rem; /* top-2 */
+            right: 0.5rem; /* right-2 */
+            background: none;
+            border: none;
+            font-size: 1.5rem; /* text-2xl */
+            color: #6b7280; /* text-gray-500 */
+            cursor: pointer;
+            transition: color 0.2s ease-in-out;
+        }
+
+        .modal-close-btn:hover {
+            color: #1f2937; /* text-gray-800 */
+        }
+
+        .modal-image {
+            width: 8rem; /* w-32 */
+            height: 8rem; /* h-32 */
+            object-fit: cover;
+            border-radius: 9999px; /* Changed to fully rounded */
+            margin: 0 auto 1rem auto; /* mx-auto mb-4 */
+            border: 2px solid #60a5fa; /* border-blue-400 */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Adjusted modal-text to remove its bottom margin, as the new paragraph will provide spacing */
+        .modal-text {
+            color: #374151; /* text-gray-700 */
+            font-size: 1rem; /* text-base */
+            margin-bottom: 0.5rem; /* Reduced mb to prevent double spacing with new paragraph */
+            line-height: 1.5;
+        }
+
+        .modal-contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem; /* space-x-4 */
+            margin-top: 1rem; /* mt-4 */
+        }
+
+        .modal-contact-links a {
+            color: #2563eb; /* text-blue-600 */
+            font-size: 2rem; /* text-3xl */
+            transition: color 0.2s ease-in-out;
+        }
+
+        .modal-contact-links a:hover {
+            color: #1d4ed8; /* text-blue-800 */
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen bg-gray-900 p-4">
+    <!-- Contact Info Modal -->
+    <div id="contactModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <button id="closeModalBtn" class="modal-close-btn">
+                <i class="fas fa-times"></i>
+            </button>
+            <img src="https://scontent.fpnh11-2.fna.fbcdn.net/v/t39.30808-6/513926358_743673318291442_7513816320845498231_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=WgKRhA2a8iUQ7kNvwE00I_3&_nc_oc=AdmbJRNqOdt7G0WoTKzCoeMnueMbecHKQ3QlzPlOkayFyPz3w_HhiCU89wY4cNuvN7I&_nc_zt=23&_nc_ht=scontent.fpnh11-2.fna&_nc_gid=9CPo21JZGYsBmhXvYr-PeQ&oh=00_AfSuHN_OHFjIvNoPx6_lbux7zFk7wHihAtVb-Cb7_7CH1Q&oe=68764881"
+                 alt="Profile Picture" class="modal-image"
+                 onerror="this.onerror=null;this.src='https://placehold.co/128x128/cccccc/000000?text=Profile';">
+            
+            <p class="text-base font-semibold text-gray-700 mb-2">បង្រៀនដោយអ្នកគ្រូ: ម៉ាដាម សូឡី</p>
+
+            <p class="modal-text">
+                ទំនាក់ទំនង សិក្សាតម្រាលេខអត្ត: តម្រាកាលយោគ-តម្រាមហាទក្សា-វិជ្ជាអានបាតដៃ និងក្បួនហោរាសាស្រ្តផ្សេងៗ មានវិដេអូមេរៀនច្បាស់លាស់ និងជូនសៀវភៅក្បួនតម្រាជាច្រើនដោយឥតគិតថ្លៃ
+            </p>
+            
+            <!-- Moved "ចុចទីនេះដើម្បីសិក្សា" here (above modal-contact-links) -->
+            <p class="text-base font-semibold text-gray-700 mb-4">ចុចទីនេះដើម្បីសិក្សា</p>
+
+            <div class="modal-contact-links">
+                <a href="https://www.facebook.com/beo3m4fkv0" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-facebook-square"></i>
+                </a>
+                <a href="https://t.me/MadamSoley" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-telegram"></i>
+                </a>
+                <a href="tel:+855973546803">
+                    <i class="fas fa-phone-square"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- End Contact Info Modal -->
+
+    <div id="mainCalculator" class="container-box">
+        <!-- Profile Picture - Added as per user request -->
+        <a href="https://www.facebook.com/beo3m4fkv0" target="_blank" rel="noopener noreferrer"
+           class="absolute rounded-full w-16 h-16 object-cover border-2 border-blue-400 shadow-md"
+           style="top: 1rem; left: 1rem; z-index: 30;">
+            <img id="profilePicture" src="https://scontent.fpnh11-2.fna.fbcdn.net/v/t39.30808-6/513926358_743673318291442_7513816320845498231_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=WgKRhA2a8iUQ7kNvwGQQxIP&_nc_oc=AdleRY1xNKxJv7BI4n6abFl_lMZonAyR0aDR73GAVahMV6aksv21QupNhWkFLC3GQtg&_nc_zt=23&_nc_ht=scontent.fpnh11-2.fna&_nc_gid=x5rZA2o3m3aQywBC1AqnPw&oh=00_AfSordg4wE4VSSLORUKqdTeDKYWUb3L8NPLy91XH1dlQCg&oe=6873A581"
+                alt="Profile Picture"
+                class="rounded-full w-full h-full object-cover"
+                onerror="this.onerror=null;this.src='https://placehold.co/64x64/cccccc/000000?text=Profile';"
+            >
+        </a>
+        <!-- End Profile Picture -->
+        
+        <!-- New Dropdown Menu -->
+        <div class="dropdown-container">
+            <button id="plusBtn" class="plus-button">
+                <i class="fas fa-plus"></i>
+            </button>
+            <div id="additionalOptionsDropdown" class="dropdown-menu hidden">
+                <a href="#" class="dropdown-item" data-action="jata-yeam">ចាប់យាមអដ្ខកាល</a>
+                <a href="#" class="dropdown-item" data-action="chomras-ayu-chor">ជម្រាស់អាយុចរ</a>
+                <!-- Removed "រកអាយុចរឆ្នាំនក្សត្រ" option as requested -->
+            </div>
+        </div>
+        <!-- End New Dropdown Menu -->
+
+        <h1 id="mainTitle" class="text-4xl font-extrabold text-center text-amber-500 mb-6 tracking-tight">
+            គណនាតម្រាអត្ត:
+        </h1>
+        <p id="mainDescription" class="text-gray-600 text-sm text-center mb-6">
+            សូមបញ្ចូលថ្ងៃ ខែ ឆ្នាំ កំណើតរបស់អ្នក តាមក្បួនអត្ត:
+        </p>
+
+        <!-- Calculator Content (now always visible) -->
+        <div id="calculatorContent">
+            <div id="mainNumberOptionControl" class="mb-4 max-w-xs mx-auto">
+                <label for="mainNumberOption" class="block text-gray-700 text-base font-semibold mb-2 text-center">ផ្លាស់ប្តូរលេខ:</label>
+                <select
+                    id="mainNumberOption"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition duration-200 ease-in-out text-gray-800 text-base text-center"
+                >
+                    <option value="khmerAtta">លេខអត្ត:</option>
+                    <option value="khmerNumbers">លេខខ្មែរ</option>
+                    <option value="universalNumbers">លេខសកល</option>
+                </select>
+            </div>
+
+            <div id="inputControls"> <!-- New wrapper for input fields and calculate button -->
+                <div class="flex justify-center items-end gap-x-4">
+                    <div class="flex-1 min-w-0">
+                        <label for="dayOfWeek" class="input-label">ថ្ងៃ (1-7):</label>
+                        <input
+                            type="number"
+                            id="dayOfWeek"
+                            class="input-field w-full"
+                            min="1"
+                            max="7"
+                            />
+                    </div>
+
+                    <div class="flex-1 min-w-0">
+                        <label for="lunarMonth" class="input-label">ខែ (1-7):</label>
+                        <input
+                            type="number"
+                            id="lunarMonth"
+                            class="input-field w-full"
+                            min="1"
+                            max="7"
+                            />
+                    </div>
+
+                    <div class="flex-1 min-w-0">
+                        <label for="lunarAnimalYear" class="input-label">ឆ្នាំ (1-7):</label>
+                        <input
+                            type="number"
+                            id="lunarAnimalYear"
+                            class="input-field w-full"
+                            min="1"
+                            max="7"
+                            />
+                    </div>
+                </div>
+
+                <button id="calculateBtn" class="button-style mt-6">
+                    គណនារកឋានទី ១-៩
+                </button>
+            </div>
+
+            <div id="allKhongDekResults" class="result-display hidden" style="position: relative;">
+                <!-- Line drawing canvas - Always present and sized by CSS -->
+                <canvas id="lineDrawingCanvas" class="drawing-canvas"></canvas>
+                <!-- Content will be injected here dynamically, including number-cell spans -->
+            </div>
+
+            <div id="errorMessage" class="error-message hidden">
+            </div>
+            
+            <div class="flex justify-center mt-4 space-x-4">
+                <button id="createNewBtn" class="icon-button">
+                    <i class="fas fa-calculator mr-2"></i> គណនាដួងកំណើតថ្មី
+                </button>
+            </div>
+        </div>
+
+        <div id="footerSocialsAndCopyright" class="mt-8 pt-4 border-t border-gray-300 text-center">
+            <div class="flex justify-center space-x-4">
+                <a href="https://www.facebook.com/beo3m4fkv0" target="_blank" class="text-blue-600 hover:text-blue-800 text-3xl">
+                    <i class="fab fa-facebook-square"></i>
+                </a>
+                <a href="https://t.me/MadamSoley" target="_blank" class="text-blue-400 hover:text-blue-600 text-3xl">
+                    <i class="fab fa-telegram"></i>
+                </a>
+            </div>
+            <p class="text-xs text-gray-500 mt-2">
+                រក្សាសិទ្ធិគ្រប់យ៉ាងដោយ: ក្រុមសិក្សាតម្រាលេខអត្ត:_ម៉ាដាម សូឡី
+            </p>
+            <p class="text-xs text-gray-500 mt-1">
+                បង្កើតឡើងដោយ: <a href="https://www.facebook.com/chuonchim68/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800">ជួន ជីម</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- New Section for "ចាប់យាមអដ្ខកាល" - Designed like the main calculator -->
+    <div id="jataYeamOddhakalSection" class="container-box hidden">
+        <h1 id="jataYeamTitle" class="text-4xl font-extrabold text-center text-amber-500 mb-6 tracking-tight">
+            ចាប់យាមអដ្ឋកាល
+        </h1>
+        <p id="jataYeamDescription" class="text-gray-600 text-sm text-center mb-6">
+            ចុចប៊ូតុងខាងក្រោមដើម្បីគណនាលេខយាមដោយស្វ័យប្រវត្តិ។
+        </p>
+
+        <div id="jataYeamInputControl" class="space-y-4">
+            <!-- This is a separate numberOptionControl for the Jata Yeam section -->
+            <div id="numberOptionControlJataYeam" class="mb-4 max-w-xs mx-auto">
+                <label for="numberOptionJataYeam" class="block text-gray-700 text-base font-semibold mb-2 text-center">ផ្លាស់ប្តូរលេខ:</label>
+                <select
+                    id="numberOptionJataYeam"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition duration-200 ease-in-out text-gray-800 text-base text-center"
+                >
+                    <option value="khmerAtta">លេខអត្ត:</option>
+                    <option value="khmerNumbers">លេខខ្មែរ</option>
+                    <option value="universalNumbers">លេខសកល</option>
+                </select>
+            </div>
+
+            <!-- New display boxes for current time, day, and month -->
+            <div class="flex justify-center mt-4 mb-6" id="jataYeamDateTimeDisplay">
+                <div class="current-data-box">
+                    <div class="label">ម៉ោងបច្ចុចុប្បន្ន</div>
+                    <div class="value" id="currentTimeDisplay">--:--</div>
+                </div>
+                <div class="current-data-box">
+                    <div class="label">ថ្ងៃបច្ចុប្បន្ន</div>
+                    <div class="value" id="currentDayDisplay">----</div>
+                </div>
+                <div class="current-data-box">
+                    <div class="label">ខែបច្ចុប្បន្ន</div>
+                    <div class="value" id="currentMonthDisplay">----</div>
+                </div>
+            </div>
+            <!-- End new display boxes -->
+
+            <button id="calculateCurrentJataYeamBtn" class="button-style mt-6">
+                គណនាចាប់យាមអដ្ឋកាល
+            </button>
+        </div>
+        
+        <div id="jataYeamResultDisplay" class="result-display hidden" style="position: relative;">
+            <canvas id="lineDrawingCanvasJataYeam" class="drawing-canvas"></canvas>
+        </div>
+
+        <!-- New section to display "ជាដួងយាមទី" and "ជាយាម" - MOVED HERE (after jataYeamResultDisplay) -->
+        <div id="jataYeamFinalResults" class="mt-4 p-3 rounded-lg bg-blue-50 text-blue-800 border border-blue-200 hidden">
+            <div class="flex justify-between items-center mb-2">
+                <span class="font-semibold text-gray-700">ជាដួងយាមទី:</span>
+                <span id="yeamNumberDisplay" class="text-xl font-bold"></span>
+            </div>
+            <div class="flex justify-between items-center">
+                <span class="font-semibold text-gray-700">ជាយាម:</span>
+                <span id="yeamAttaResultDisplay" class="text-xl font-bold"></span>
+            </div>
+        </div>
+        <!-- End new section -->
+
+        <div id="jataYeamErrorMessage" class="error-message hidden"></div>
+
+        <button id="jataYeamGoBackBtn" class="icon-button bg-gray-500 hover:bg-gray-600 mt-6 mx-auto">
+            <i class="fas fa-arrow-left mr-2"></i> ត្រឡប់ក្រោយ
+        </button>
+    </div>
+    <!-- End New Section for "ចាប់យាមអដ្ខកាល" -->
+
+    <!-- New Section for "ជម្រាស់អាយុចរ" -->
+    <div id="chomrasAyuChorSection" class="container-box hidden">
+        <h1 id="chomrasAyuChorTitle" class="text-4xl font-extrabold text-center text-amber-500 mb-6 tracking-tight">
+            ជម្រាស់អាយុចរ
+        </h1>
+        <p id="chomrasAyuChorDescription" class="text-gray-600 text-sm text-center mb-6">
+            សូមបញ្ចូលថ្ងៃ ខែ ឆ្នាំ កំណើតរបស់អ្នក ដើម្បីគណនាជម្រាស់អាយុចរ។
+        </p>
+
+        <div id="chomrasAyuChorInputControl" class="space-y-4">
+            <div class="flex justify-center items-end gap-x-4">
+                <div class="flex-1 min-w-0">
+                    <label for="birthDayChomras" class="input-label">ថ្ងៃកំណើត:</label>
+                    <input
+                        type="number"
+                        id="birthDayChomras"
+                        class="input-field w-full"
+                        placeholder="ឧទាហរណ៍: 15"
+                        min="1"
+                        max="31"
+                    />
+                </div>
+                <div class="flex-1 min-w-0">
+                    <label for="birthMonthChomras" class="input-label">ខែកំណើត:</label>
+                    <input
+                        type="number"
+                        id="birthMonthChomras"
+                        class="input-field w-full"
+                        placeholder="ឧទាហរណ៍: 7"
+                        min="1"
+                        max="12"
+                    />
+                </div>
+                <div class="flex-1 min-w-0">
+                    <label for="birthYearChomras" class="input-label">ឆ្នាំកំណើត:</label>
+                    <input
+                        type="number"
+                        id="birthYearChomras"
+                        class="input-field w-full"
+                        placeholder="ឧទាហរណ៍: 2000"
+                        min="1900"
+                        max="2100"
+                    />
+                </div>
+            </div>
+            
+            <div class="current-data-box">
+                <div class="label">ថ្ងៃ ខែ ឆ្នាំ បច្ចុប្បន្ន</div>
+                <div class="value" id="currentDateDisplayChomras">--/--/----</div>
+            </div>
+
+            <button id="calculateChomrasAyuChorBtn" class="button-style mt-6">
+                គណនាជម្រាស់អាយុចរ
+            </button>
+        </div>
+        
+        <!-- Original chomrasAyuChorResultDisplay structure -->
+        <div id="chomrasAyuChorResultDisplay" class="result-display hidden">
+            <div class="result-line">
+                <div class="label-and-value-group">
+                    <span class="label-text">អាយុពេញបរិបូរណ៍:</span>
+                    <span id="fullAgeValue" class="value-display highlight-green"></span>
+                </div>
+                <span class="unit-text">ឆ្នាំ</span>
+            </div>
+            <div class="result-line hidden" id="currentAgeLine">
+                <div class="label-and-value-group">
+                    <span class="label-text">អាយុកំពុងចរ:</span>
+                    <span id="currentAgeValue" class="value-display highlight-green"></span>
+                </div>
+                <span class="unit-text">ឆ្នាំ</span>
+            </div>
+            <div class="result-line">
+                <div class="label-and-value-group">
+                    <span class="label-text">ខែកំពុងចរ:</span>
+                    <span id="currentMonthValue" class="value-display highlight-green"></span>
+                </div>
+                <span class="unit-text">ខែ</span>
+            </div>
+            <div class="result-line">
+                <div class="label-and-value-group">
+                    <span class="label-text">ចំនួនថ្ងៃ:</span>
+                    <span id="currentDayValue" class="value-display highlight-green"></span>
+                </div>
+                <span class="unit-text">ថ្ងៃ</span>
+            </div>
+        </div>
+        <!-- End original chomrasAyuChorResultDisplay structure -->
+
+        <div id="chomrasAyuChorErrorMessage" class="error-message hidden"></div>
+
+        <div class="flex justify-center mt-4 space-x-4">
+            <button id="createNewChomrasBtn" class="icon-button">
+                <i class="fas fa-calculator mr-2"></i> គណនាថ្មី
+            </button>
+            <button id="chomrasAyuChorGoBackBtn" class="icon-button bg-gray-500 hover:bg-gray-600">
+                <i class="fas fa-arrow-left mr-2"></i> ត្រឡប់ក្រោយ
+            </button>
+        </div>
+    </div>
+    <!-- End New Section for "ជម្រាស់អាយុចរ" -->
+
+    <!-- NEW SECTION for "រកអាយុចរឆ្នាំនក្សត្រ" -->
+    <!-- This section is now permanently hidden as per user request -->
+    <div id="zodiacAgeCalculatorSection" class="container-box hidden">
+        <h1 class="text-4xl font-extrabold text-center text-amber-500 mb-6 tracking-tight">
+            រកអាយុចរឆ្នាំនក្សត្រ
+        </h1>
+        <p class="text-gray-600 text-sm text-center mb-6">
+            សូមបញ្ចូលឆ្នាំកំណើត (នក្សត្រ) និងខ្ទង់អាយុរបស់អ្នក ដើម្បីគណនាអាយុចរឆ្នាំនក្សត្រ។
+        </p>
+
+        <div class="space-y-4">
+            <div class="flex justify-center items-end gap-x-4">
+                <div class="flex-1 min-w-0">
+                    <label for="birthAnimalYearZodiac" class="input-label">ឆ្នាំកំណើត (នក្សត្រ):</label>
+                    <select
+                        id="birthAnimalYearZodiac"
+                        class="input-field w-full"
+                    >
+                        <option value="">ជ្រើសរើសឆ្នាំសត្វ</option>
+                        <!-- Options will be dynamically populated in JS -->
+                    </select>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <label for="ageTierZodiac" class="input-label">ខ្ទង់អាយុរបស់មនុស្ស:</label>
+                    <select
+                        id="ageTierZodiac"
+                        class="input-field w-full"
+                    >
+                        <option value="">ជ្រើសរើសខ្ទង់អាយុ</option>
+                        <option value="10">10 ឆ្នាំ</option>
+                        <option value="20">20 ឆ្នាំ</option>
+                        <option value="30">30 ឆ្នាំ</option>
+                        <option value="40">40 ឆ្នាំ</option>
+                        <option value="50">50 ឆ្នាំ</option>
+                        <option value="60">60 ឆ្នាំ</option>
+                        <option value="70">70 ឆ្នាំ</option>
+                        <option value="80">80 ឆ្នាំ</option>
+                        <option value="90">90 ឆ្នាំ</option>
+                        <option value="100">100 ឆ្នាំ</option>
+                    </select>
+                </div>
+            </div>
+            
+            <button id="calculateZodiacAgeBtn" class="button-style mt-6">
+                គណនាអាយុចរឆ្នាំនក្សត្រ
+            </button>
+        </div>
+        
+        <div id="zodiacAgeResultDisplay" class="result-display hidden">
+            <div class="result-line">
+                <div class="label-and-value-group">
+                    <span class="label-text">ឆ្នាំកំណើត (នក្សត្រ):</span>
+                    <span id="birthZodiacValue" class="value-display highlight-green"></span>
+                </div>
+            </div>
+            <div class="result-line">
+                <div class="label-and-value-group">
+                    <span class="label-text">ឆ្នាំបច្ចុប្បន្ន (នក្សត្រ):</span>
+                    <span id="currentZodiacValue" class="value-display highlight-green"></span>
+                </div>
+            </div>
+            <div class="result-line">
+                <div class="label-and-value-group">
+                    <span class="label-text">ខ្ទង់អាយុដែលបានជ្រើសរើស:</span>
+                    <span id="selectedAgeTierValue" class="value-display highlight-green"></span>
+                </div>
+                <span class="unit-text">ឆ្នាំ</span>
+            </div>
+            <div class="result-line">
+                <div class="label-and-value-group">
+                    <span class="label-text">អាយុចរឆ្នាំនក្សត្រ (លទ្ធផល):</span>
+                    <span id="currentMovingZodiacValue" class="value-display highlight-green"></span>
+                </div>
+            </div>
+        </div>
+
+        <div id="zodiacAgeErrorMessage" class="error-message hidden"></div>
+
+        <div class="flex justify-center mt-4 space-x-4">
+            <button id="createNewZodiacBtn" class="icon-button">
+                <i class="fas fa-calculator mr-2"></i> គណនាថ្មី
+            </button>
+            <button id="zodiacAgeGoBackBtn" class="icon-button bg-gray-500 hover:bg-gray-600">
+                <i class="fas fa-arrow-left mr-2"></i> ត្រឡប់ក្រោយ
+            </button>
+        </div>
+    </div>
+    <!-- END NEW SECTION for "រកអាយុចរឆ្នាំនក្សត្រ" -->
+
+
+    <div id="newCreationSection" class="new-creation-section hidden">
+        <h2 class="text-3xl font-extrabold text-blue-800 mb-4">កន្លែងបង្កើតថ្មី</h2>
+        <p class="text-gray-700 text-lg mb-6">
+            នេះជាកន្លែងសម្រាប់បង្កើតមុខងារថ្មីៗ ឬកម្មវិធីផ្សេងទៀត។
+        </p>
+        <button id="goBackBtn" class="button-style bg-blue-500 hover:bg-blue-600">
+            ត្រឡប់ក្រោយ
+        </button>
+    </div>
+
+    <script>
+        // Helper function to normalize a value to the 1-7 range based on the rule
+        const normalizeToSeven = (value) => {
+            let result = (value - 1) % 7 + 1;
+            return result;
+        };
+
+        // Function to generate Khong Dek sequence and return as an array
+        const generateKhongDekSequence = (startValue) => {
+            const sequence = [];
+            for (let i = 0; i < 7; i++) {
+                const num = (startValue + i - 1) % 7 + 1;
+                sequence.push(num);
+            }
+            return sequence;
+        };
+
+        // Mapping for Atta numerals (លេខអត្ត:) based on user's images and clarifications
+        // For numbers 0, 1, 3, 4, 5, 6, 7, 8, the symbols are directly represented by Arabic digits or a common slash.
+        // For 9, using the provided SVG.
+        const khmerAttaNumeralsMap = {
+            0: '0',
+            1: 'Λ',
+            2: '<strong>|</strong>',
+            3: 'M',
+            4: 'V',
+            5: '૪',
+            6: '\\',
+            7: 'N',
+            8: '/',
+            9: `<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+                width="100%" height="100%" viewBox="0 0 58.000000 76.000000"
+                preservePreserveAspectRatio="xMidYMid meet">
+                <g transform="translate(0.000000,76.000000) scale(0.100000,-0.100000)"
+                fill="currentColor" stroke="none">
+                <path d="M203 459 c-104 -104 -120 -124 -114 -143 8 -19 17 -21 122 -26 63 -3
+                122 -9 132 -14 20 -10 24 -65 5 -84 -7 -7 -32 -12 -56 -12 -43 0 -43 0 -40
+                -32 3 -33 3 -33 53 -29 92 6 125 36 125 115 0 36 -6 52 -29 78 -29 32 -31 33
+                -123 35 -51 1 -97 2 -103 3 -5 0 -1 7 10 16 45 34 185 167 185 176 0 12 -26
+                38 -37 38 -4 0 -63 -55 -130 -121z"/>
+                </g>
+                </svg>`,
+        };
+
+
+        // Function to convert Arabic numerals to Khmer numerals
+        const convertToKhmerNumerals = (number) => {
+            const khmerDigits = ['០', '១', '២', '៣', '៤', '៥', '៦', '៧', '៨', '៩'];
+            return String(number).split('').map(digit => khmerDigits[parseInt(digit)]).join('');
+        };
+
+        // Modified function to format sequence for display, now returns actual DOM elements
+        // This is crucial for getting their positions for drawing lines and attaching event listeners.
+        // Also added data-value attribute to store the actual numeric value.
+        // Removed label parameter from here
+        const formatSequenceForDisplay = (sequence, highlightRules = [], numberingType = 'khmerAtta', rowIndex) => {
+            const rowElements = [];
+            sequence.forEach((num, colIndex) => { // Added colIndex
+                const span = document.createElement('span');
+                span.classList.add('number-cell');
+                span.dataset.value = num; // Store the actual numeric value
+                span.dataset.row = rowIndex; // Add data-row
+                span.dataset.col = colIndex; // Add data-col
+
+                let classToApply = '';
+                for (const rule of highlightRules) {
+                    if (rule.indices.includes(colIndex)) { // Changed 'index' to 'colIndex'
+                        if (rule.values === null || rule.values.length === 0 || rule.values.includes(num)) {
+                            classToApply = rule.colorClass;
+                            break;
+                        }
+                    }
+                }
+                if (classToApply) {
+                    span.classList.add(classToApply);
+                }
+
+                let displayContent;
+                if (numberingType === 'khmerNumbers') {
+                    displayContent = convertToKhmerNumerals(num);
+                } else if (numberingType === 'khmerAtta') {
+                    if (num > 9) {
+                        displayContent = String(num).split('').map(digit => khmerAttaNumeralsMap[parseInt(digit)] || digit).join('');
+                    } else {
+                        displayContent = khmerAttaNumeralsMap[num] || String(num); // Ensure it's a string
+                    }
+                } else {
+                    displayContent = String(num); // Ensure it's a string
+                }
+                span.innerHTML = displayContent; // Use innerHTML to allow for bold tag or SVG
+
+                rowElements.push(span);
+            });
+            return rowElements;
+        };
+
+
+        // Function to get watch number based on current time and day
+        const getWatchNumber = (hour, minute, gregorianDayIndex) => {
+            const dayMap = [1, 2, 3, 4, 5, 6, 7]; // Sunday=0, Monday=1, ..., Saturday=6 -> 1-7. For display only.
+
+            // Determine the effective day index based on the 6 AM rule
+            let effectiveDayIndex = gregorianDayIndex;
+            if (hour >= 0 && hour < 6) { // ប្រសិនបើម៉ោងនៅចន្លោះពាក់កណ្តាលអធ្រាត្រដល់ម៉ោង 5:59 ព្រឹក
+                // វានៅតែជាថ្ងៃមុនតាមក្បួន
+                effectiveDayIndex = (gregorianDayIndex - 1 + 7) % 7;
+            }
+            const currentDayNumber = dayMap[effectiveDayIndex]; // This currentDayNumber is used for the calculation logic
+
+            let baseValue = null;
+
+            // ច្បាប់ជាក់លាក់សម្រាប់ម៉ោង (រៀបតាមលំដាប់លំដោយម៉ោង)
+            // 00:00 AM - 01:29 AM (យាមចុងក្រោយនៃថ្ងៃមុន)
+            if (hour === 0 || (hour === 1 && minute < 30)) {
+                if (currentDayNumber === 1) baseValue = 3; // អាទិត្យ
+                else if (currentDayNumber === 2) baseValue = 4; // ច័ន្ទ
+                else if (currentDayNumber === 3) baseValue = 5; // អង្គារ
+                else if (currentDayNumber === 4) baseValue = 6; // ពុធ
+                else if (currentDayNumber === 5) baseValue = 7; // ព្រហស្បតិ៍
+                else if (currentDayNumber === 6) baseValue = 1; // សុក្រ
+                else if (currentDayNumber === 7) baseValue = 2; // សៅរ៍
+            }
+            // 01:30 AM - 02:59 AM
+            else if ((hour === 1 && minute >= 30) || (hour === 2)) {
+                if (currentDayNumber === 1) baseValue = 7; // អាទិត្យ
+                else if (currentDayNumber === 2) baseValue = 1; // ច័ន្ទ
+                else if (currentDayNumber === 3) baseValue = 2; // អង្គារ
+                else if (currentDayNumber === 4) baseValue = 3; // ពុធ
+                else if (currentDayNumber === 5) baseValue = 4; // ព្រហស្បតិ៍
+                else if (currentDayNumber === 6) baseValue = 5; // សុក្រ
+                else if (currentDayNumber === 7) baseValue = 6; // សៅរ៍
+            }
+            // 03:00 AM - 04:29 AM
+            else if (hour === 3 || (hour === 4 && minute < 30)) {
+                if (currentDayNumber === 1) baseValue = 4; // អាទិត្យ
+                else if (currentDayNumber === 2) baseValue = 5; // ច័ន្ទ
+                else if (currentDayNumber === 3) baseValue = 6; // អង្គារ
+                else if (currentDayNumber === 4) baseValue = 7; // ពុធ
+                else if (currentDayNumber === 5) baseValue = 1; // ព្រហស្បតិ៍
+                else if (currentDayNumber === 6) baseValue = 2; // សុក្រ
+                else if (currentDayNumber === 7) baseValue = 3; // សៅរ៍
+            }
+            // 04:30 AM - 05:59 AM (បញ្ចប់មុនម៉ោង 6 ព្រឹក)
+            else if ((hour === 4 && minute >= 30) || (hour === 5)) {
+                if (currentDayNumber === 1) baseValue = 1; // អាទិត្យ
+                else if (currentDayNumber === 2) baseValue = 2; // ច័ន្ទ
+                else if (currentDayNumber === 3) baseValue = 3; // អង្គារ
+                else if (currentDayNumber === 4) baseValue = 4; // ពុធ
+                else if (currentDayNumber === 5) baseValue = 5; // ព្រហស្បតិ៍
+                else if (currentDayNumber === 6) baseValue = 6; // សុក្រ
+                else if (currentDayNumber === 7) baseValue = 7; // សៅរ៍
+            }
+            // 06:00 AM - 07:29 AM
+            else if (hour === 6 || (hour === 7 && minute < 30)) {
+                if (currentDayNumber === 1) baseValue = 3; // អាទិត្យ
+                else if (currentDayNumber === 2) baseValue = 5; // ច័ន្ទ
+                else if (currentDayNumber === 3) baseValue = 7; // អង្គារ
+                else if (currentDayNumber === 4) baseValue = 2; // ពុធ
+                else if (currentDayNumber === 5) baseValue = 4; // ព្រហស្បតិ៍
+                else if (currentDayNumber === 6) baseValue = 6; // សុក្រ
+                else if (currentDayNumber === 7) baseValue = 1; // សៅរ៍
+            }
+            // 07:30 AM - 08:59 AM
+            else if ((hour === 7 && minute >= 30) || (hour === 8)) {
+                if (currentDayNumber === 1) baseValue = 6;
+                else if (currentDayNumber === 2) baseValue = 7;
+                else if (currentDayNumber === 3) baseValue = 1;
+                else if (currentDayNumber === 4) baseValue = 2;
+                else if (currentDayNumber === 5) baseValue = 3;
+                else if (currentDayNumber === 6) baseValue = 4;
+                else if (currentDayNumber === 7) baseValue = 5;
+            }
+            // 09:00 AM - 10:29 AM
+            else if (hour === 9 || (hour === 10 && minute < 30)) {
+                if (currentDayNumber === 1) baseValue = 1;
+                else if (currentDayNumber === 2) baseValue = 3;
+                else if (currentDayNumber === 3) baseValue = 5;
+                else if (currentDayNumber === 4) baseValue = 7;
+                else if (currentDayNumber === 5) baseValue = 2;
+                else if (currentDayNumber === 6) baseValue = 4;
+                else if (currentDayNumber === 7) baseValue = 6;
+            }
+            // 10:30 AM - 11:59 AM
+            else if ((hour === 10 && minute >= 30) || (hour === 11)) {
+                if (currentDayNumber === 1) baseValue = 2;
+                else if (currentDayNumber === 2) baseValue = 3;
+                else if (currentDayNumber === 3) baseValue = 4;
+                else if (currentDayNumber === 4) baseValue = 5;
+                else if (currentDayNumber === 5) baseValue = 6;
+                else if (currentDayNumber === 6) baseValue = 7;
+                else if (currentDayNumber === 7) baseValue = 1;
+            }
+            // 12:00 PM - 13:29 PM
+            else if (hour === 12 || (hour === 13 && minute < 30)) {
+                if (currentDayNumber === 1) baseValue = 7;
+                else if (currentDayNumber === 2) baseValue = 1;
+                else if (currentDayNumber === 3) baseValue = 2;
+                else if (currentDayNumber === 4) baseValue = 3;
+                else if (currentDayNumber === 5) baseValue = 4;
+                else if (currentDayNumber === 6) baseValue = 5;
+                else if (currentDayNumber === 7) baseValue = 6;
+            }
+            // 13:30 PM - 14:59 PM (កែតម្រូវសម្រាប់ថ្ងៃពុធ)
+            else if ((hour === 13 && minute >= 30) || hour === 14) {
+                if (currentDayNumber === 1) baseValue = 4; // អាទិត្យ
+                else if (currentDayNumber === 2) baseValue = 5; // ច័ន្ទ
+                else if (currentDayNumber === 3) baseValue = 6; // អង្គារ
+                else if (currentDayNumber === 4) baseValue = 1; // ពុធ (កែតម្រូវ: 7 ទៅ 1)
+                else if (currentDayNumber === 5) baseValue = 1; // ព្រហស្បតិ៍
+                else if (currentDayNumber === 6) baseValue = 2; // សុក្រ
+                else if (currentDayNumber === 7) baseValue = 3; // សៅរ៍
+            }
+            // 15:00 PM - 16:29 PM
+            else if (hour === 15 || (hour === 16 && minute < 30)) {
+                if (currentDayNumber === 1) baseValue = 5;
+                else if (currentDayNumber === 2) baseValue = 7;
+                else if (currentDayNumber === 3) baseValue = 2;
+                else if (currentDayNumber === 4) baseValue = 4;
+                else if (currentDayNumber === 5) baseValue = 6;
+                else if (currentDayNumber === 6) baseValue = 1;
+                else if (currentDayNumber === 7) baseValue = 3;
+            }
+            // 16:30 PM - 17:59 PM (បញ្ចប់មុនម៉ោង 18:00)
+            else if ((hour === 16 && minute >= 30) || (hour === 17)) {
+                if (currentDayNumber === 1) baseValue = 1; // អាទិត្យ
+                else if (currentDayNumber === 2) baseValue = 2; // ច័ន្ទ
+                else if (currentDayNumber === 3) baseValue = 3; // អង្គារ
+                else if (currentDayNumber === 4) baseValue = 4; // ពុធ
+                else if (currentDayNumber === 5) baseValue = 5; // ព្រហស្បតិ៍
+                else if (currentDayNumber === 6) baseValue = 6; // សុក្រ
+                else if (currentDayNumber === 7) baseValue = 7; // សៅរ៍
+            }
+            // 18:00 PM តទៅ (ចាប់ផ្តើមប្លុកថ្មីសម្រាប់ពេលល្ងាច/យប់)
+            else if ((hour === 18 && minute >= 0) || (hour === 19 && minute <= 30)) {
+                if (currentDayNumber === 1) baseValue = 1; // អាទិត្យ
+                else if (currentDayNumber === 2) baseValue = 2; // ច័ន្ទ
+                else if (currentDayNumber === 3) baseValue = 3; // អង្គារ
+                else if (currentDayNumber === 4) baseValue = 4; // ពុធ
+                else if (currentDayNumber === 5) baseValue = 5; // ព្រហស្បតិ៍
+                else if (currentDayNumber === 6) baseValue = 6; // សុក្រ
+                else if (currentDayNumber === 7) baseValue = 7; // សៅរ៍
+            }
+            // ច្បាប់ជាក់លាក់សម្រាប់ពេលយប់ផ្សេងទៀត
+            else if ((hour === 19 && minute >= 30) || (hour === 20) || (hour === 21 && minute === 0)) {
+                if (currentDayNumber === 1) baseValue = 5; // អាទិត្យ
+                else if (currentDayNumber === 2) baseValue = 6; // ច័ន្ទ
+                else if (currentDayNumber === 3) baseValue = 7; // អង្គារ
+                else if (currentDayNumber === 4) baseValue = 1; // ពុធ
+                else if (currentDayNumber === 5) baseValue = 2;
+                else if (currentDayNumber === 6) baseValue = 3;
+                else if (currentDayNumber === 7) baseValue = 4;
+            }
+            else if ((hour === 21 && minute >= 0) || (hour === 22 && minute <= 30)) {
+                if (currentDayNumber === 1) baseValue = 2; // អាទិត្យ
+                else if (currentDayNumber === 2) baseValue = 3; // ច័ន្ទ
+                else if (currentDayNumber === 3) baseValue = 4; // អង្គារ
+                else if (currentDayNumber === 4) baseValue = 5; // ពុធ
+                else if (currentDayNumber === 5) baseValue = 6;
+                else if (currentDayNumber === 6) baseValue = 7;
+                else if (currentDayNumber === 7) baseValue = 1;
+            }
+            else if ((hour === 22 && minute >= 30) || (hour === 23)) {
+                if (currentDayNumber === 1) baseValue = 6; // អាទិត្យ
+                else if (currentDayNumber === 2) baseValue = 7; // ច័ន្ទ
+                else if (currentDayNumber === 3) baseValue = 1; // អង្គារ
+                else if (currentDayNumber === 4) baseValue = 2; // ពុធ
+                else if (currentDayNumber === 5) baseValue = 3; // ព្រហស្បតិ៍
+                else if (currentDayNumber === 6) baseValue = 4; // សុក្រ
+                else if (currentDayNumber === 7) baseValue = 5; // សៅរ៍
+            }
+
+            return { baseValue, currentDayNumber };
+        };
+
+
+        // Global or accessible variables for canvas
+        let lineDrawingCanvasMain, ctxMain; // Renamed for main calculator
+        let lineDrawingCanvasJataYeam, ctxJataYeam; // New for Jata Yeam section
+        let updateIntervalId = null; // To store the interval ID for updating time/day/month
+        let updateCurrentDateIntervalId = null; // New interval for current date display in Chomras Ayu Chor
+        let popupTimerId = null; // Timer for the popup modal
+
+        // Define the predefined sequences for Khong Dek 8 based on the normalized first value of Khong Banchhor
+        const khongDekEightMappings = {
+            1: [1, 6, 4, 2, 7, 5, 3],
+            2: [2, 7, 5, 3, 1, 6, 4],
+            3: [3, 1, 6, 4, 2, 7, 5],
+            4: [4, 2, 7, 5, 3, 1, 6],
+            5: [5, 3, 1, 6, 4, 2, 7],
+            6: [6, 4, 2, 7, 5, 3, 1],
+            7: [7, 5, 3, 1, 6, 4, 2]
+        };
+
+        // Define the predefined sequences for Khong Dek Nine (based on initial sum of day, month, year)
+        const khongDekNineMappings = {
+            1: [1, 6, 4, 2, 7, 5, 3],
+            2: [2, 7, 5, 3, 1, 6, 4],
+            3: [3, 1, 6, 4, 2, 7, 5],
+            4: [4, 2, 7, 5, 3, 1, 6],
+            5: [5, 3, 1, 6, 4, 2, 7],
+            6: [6, 4, 2, 7, 5, 3, 1],
+            7: [7, 5, 3, 1, 6, 4, 2]
+        };
+
+        // Define the predefined sequences for the FINAL answer row
+        const finalAnswerMappings = {
+            1: [3, 5, 7, 2, 4, 6, 1],
+            2: [4, 6, 1, 3, 5, 7, 2],
+            3: [5, 7, 2, 4, 6, 1, 3],
+            4: [6, 1, 3, 5, 7, 2, 4],
+            5: [7, 2, 4, 6, 1, 3, 5],
+            6: [1, 3, 5, 7, 2, 4, 6],
+            7: [2, 4, 6, 1, 3, 5, 7]
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const lunarMonthInput = document.getElementById('lunarMonth');
+            const lunarAnimalYearInput = document.getElementById('lunarAnimalYear');
+            const dayOfWeekInput = document.getElementById('dayOfWeek');
+            const calculateBtn = document.getElementById('calculateBtn');
+            const allKhongDekResults = document.getElementById('allKhongDekResults');
+            const errorMessage = document.getElementById('errorMessage');
+            const inputControls = document.getElementById('inputControls');
+            const footerSocialsAndCopyright = document.getElementById('footerSocialsAndCopyright');
+            const mainTitle = document.getElementById('mainTitle'); 
+            const mainDescription = document.getElementById('mainDescription'); 
+            
+            // Main Calculator's number option control
+            const mainNumberOptionControl = document.getElementById('mainNumberOptionControl'); 
+            const mainNumberOptionSelect = document.getElementById('mainNumberOption'); 
+
+            const createNewBtn = document.getElementById('createNewBtn');
+            const mainCalculator = document.getElementById('mainCalculator');
+            const newCreationSection = document.getElementById('newCreationSection');
+            const goBackBtn = document.getElementById('goBackBtn');
+
+            // Dropdown elements
+            const plusBtn = document.getElementById('plusBtn');
+            const additionalOptionsDropdown = document.getElementById('additionalOptionsDropdown');
+            const dropdownItems = additionalOptionsDropdown.querySelectorAll('.dropdown-item');
+            const dropdownContainer = document.querySelector('.dropdown-container'); // Get the container
+
+            // Profile Picture element
+            const profilePicture = document.getElementById('profilePicture');
+
+            // Modal elements
+            const contactModal = document.getElementById('contactModal');
+            const closeModalBtn = document.getElementById('closeModalBtn');
+
+
+            // New Jata Yeam Oddhakal elements
+            const jataYeamOddhakalSection = document.getElementById('jataYeamOddhakalSection');
+            const jataYeamTitle = document.getElementById('jataYeamTitle'); 
+            const jataYeamDescription = document.getElementById('jataYeamDescription'); 
+            const jataYeamGoBackBtn = document.getElementById('jataYeamGoBackBtn');
+            const calculateCurrentJataYeamBtn = document.getElementById('calculateCurrentJataYeamBtn');
+            const jataYeamResultDisplay = document.getElementById('jataYeamResultDisplay'); 
+            const jataYeamErrorMessage = document.getElementById('jataYeamErrorMessage');
+            const jataYeamInputControl = document.getElementById('jataYeamInputControl'); // New: Wrapper for Jata Yeam inputs/button
+
+            // New Jata Yeam final results display elements
+            const jataYeamFinalResults = document.getElementById('jataYeamFinalResults');
+            const yeamNumberDisplay = document.getElementById('yeamNumberDisplay');
+            const yeamAttaResultDisplay = document.getElementById('yeamAttaResultDisplay');
+
+            // New display boxes for current time, day, and month
+            const jataYeamDateTimeDisplay = document.getElementById('jataYeamDateTimeDisplay');
+
+
+            // Jata Yeam section's number option control
+            const jataYeamNumberOptionControl = document.getElementById('numberOptionControlJataYeam');
+            const jataYeamNumberOptionSelect = document.getElementById('numberOptionJataYeam');
+
+            // New display elements for Jata Yeam section
+            const currentTimeDisplay = document.getElementById('currentTimeDisplay');
+            const currentDayDisplay = document.getElementById('currentDayDisplay');
+            const currentMonthDisplay = document.getElementById('currentMonthDisplay');
+
+            // New Chomras Ayu Chor elements
+            const chomrasAyuChorSection = document.getElementById('chomrasAyuChorSection');
+            const chomrasAyuChorTitle = document.getElementById('chomrasAyuChorTitle'); // Added for Chomras Ayu Chor
+            const chomrasAyuChorDescription = document.getElementById('chomrasAyuChorDescription'); // Added for Chomras Ayu Chor
+            const chomrasAyuChorInputControl = document.getElementById('chomrasAyuChorInputControl'); // Added for Chomras Ayu Chor
+
+            const birthDayChomrasInput = document.getElementById('birthDayChomras');
+            const birthMonthChomrasInput = document.getElementById('birthMonthChomras');
+            const birthYearChomrasInput = document.getElementById('birthYearChomras');
+            const currentDateDisplayChomras = document.getElementById('currentDateDisplayChomras');
+            const calculateChomrasAyuChorBtn = document.getElementById('calculateChomrasAyuChorBtn');
+            const chomrasAyuChorResultDisplay = document.getElementById('chomrasAyuChorResultDisplay');
+            const chomrasAyuChorErrorMessage = document.getElementById('chomrasAyuChorErrorMessage');
+            const chomrasAyuChorGoBackBtn = document.getElementById('chomrasAyuChorGoBackBtn');
+            const createNewChomrasBtn = document.getElementById('createNewChomrasBtn'); // New button
+            
+            // Elements for Chomras Ayu Chor results display (reverted to original)
+            const fullAgeValue = document.getElementById('fullAgeValue');
+            const currentAgeLine = document.getElementById('currentAgeLine');
+            const currentAgeValue = document.getElementById('currentAgeValue');
+            const currentMonthValue = document.getElementById('currentMonthValue');
+            const currentDayValue = document.getElementById('currentDayValue');
+
+            // Zodiac Age Calculator elements - these are now unused but kept in comments for reference
+            // const zodiacAgeCalculatorSection = document.getElementById('zodiacAgeCalculatorSection');
+            // const birthAnimalYearZodiacSelect = document.getElementById('birthAnimalYearZodiac'); 
+            // const ageTierZodiacSelect = document.getElementById('ageTierZodiac'); 
+            // const calculateZodiacAgeBtn = document.getElementById('calculateZodiacAgeBtn');
+            // const zodiacAgeResultDisplay = document.getElementById('zodiacAgeResultDisplay');
+            // const zodiacAgeErrorMessage = document.getElementById('zodiacAgeErrorMessage');
+            // const zodiacAgeGoBackBtn = document.getElementById('zodiacAgeGoBackBtn');
+            // const createNewZodiacBtn = document.getElementById('createNewZodiacBtn');
+            // const birthZodiacValue = document.getElementById('birthZodiacValue');
+            // const currentZodiacValue = document.getElementById('currentZodiacValue');
+            // const selectedAgeTierValue = document.getElementById('selectedAgeTierValue'); 
+            // const currentMovingZodiacValue = document.getElementById('currentMovingZodiacValue');
+
+
+            // Calculator Content (always visible by default now, so no login form)
+            const calculatorContent = document.getElementById('calculatorContent');
+
+            // Initialize canvas and context for Main Calculator
+            lineDrawingCanvasMain = document.getElementById('lineDrawingCanvas');
+            ctxMain = lineDrawingCanvasMain.getContext('2d');
+
+            // Initialize canvas and context for Jata Yeam section
+            lineDrawingCanvasJataYeam = document.getElementById('lineDrawingCanvasJataYeam');
+            ctxJataYeam = lineDrawingCanvasJataYeam.getContext('2d');
+
+
+            // Set default option to "លេខអត្ត:" for main and Jata Yeam select elements
+            if (mainNumberOptionSelect) {
+                mainNumberOptionSelect.value = "khmerAtta";
+            }
+            if (jataYeamNumberOptionSelect) {
+                jataYeamNumberOptionSelect.value = "khmerAtta";
+            }
+            
+            // Function to hide messages for main calculator
+            const hideMainMessages = () => {
+                allKhongDekResults.classList.add('hidden');
+                errorMessage.classList.add('hidden');
+            };
+
+            // Function to display error message for main calculator
+            const showMainErrorMessage = (message) => {
+                hideMainMessages();
+                errorMessage.textContent = message;
+                errorMessage.classList.remove('hidden');
+            };
+
+            // Function to hide messages for Jata Yeam
+            const hideJataYeamMessages = () => {
+                jataYeamResultDisplay.classList.add('hidden');
+                jataYeamErrorMessage.classList.add('hidden');
+                jataYeamFinalResults.classList.add('hidden'); // Hide final results too
+            };
+
+            // Function to display error message for Jata Yeam
+            const showJataYeamErrorMessage = (message) => {
+                hideJataYeamMessages();
+                jataYeamErrorMessage.textContent = message;
+                jataYeamErrorMessage.classList.remove('hidden');
+            };
+
+            // Function to hide messages for Chomras Ayu Chor
+            const hideChomrasAyuChorMessages = () => {
+                chomrasAyuChorResultDisplay.classList.add('hidden');
+                chomrasAyuChorErrorMessage.classList.add('hidden');
+            };
+
+            // Function to display error message for Chomras Ayu Chor
+            const showChomrasAyuChorErrorMessage = (message) => {
+                hideChomrasAyuChorMessages();
+                chomrasAyuChorErrorMessage.textContent = message;
+                chomrasAyuChorErrorMessage.classList.remove('hidden');
+            };
+
+            // Function to hide messages for Zodiac Age Calculator (now unused)
+            // const hideZodiacAgeMessages = () => {
+            //     zodiacAgeResultDisplay.classList.add('hidden');
+            //     zodiacAgeErrorMessage.classList.add('hidden');
+            // };
+
+            // Function to display error message for Zodiac Age Calculator (now unused)
+            // const showZodiacAgeErrorMessage = (message) => {
+            //     hideZodiacAgeMessages();
+            //     zodiacAgeErrorMessage.textContent = message;
+            //     zodiacAgeErrorMessage.classList.remove('hidden');
+            // };
+
+
+            // Function to get the center coordinates of a number cell (for Main Calculator)
+            const getCellCenterMain = (element) => {
+                const rect = element.getBoundingClientRect();
+                // Get the container's position relative to the viewport to make canvas drawing relative
+                const containerRect = allKhongDekResults.getBoundingClientRect(); 
+                return {
+                    x: (rect.left + rect.right) / 2 - containerRect.left,
+                    y: (rect.top + rect.bottom) / 2 - containerRect.top
+                };
+            };
+
+            // Function to get the center coordinates of a number cell (for Jata Yeam Section)
+            const getCellCenterJataYeam = (element) => {
+                const rect = element.getBoundingClientRect();
+                const containerRect = jataYeamResultDisplay.getBoundingClientRect();
+                return {
+                    x: (rect.left + rect.right) / 2 - containerRect.left,
+                    y: (rect.top + rect.bottom) / 2 - containerRect.top
+                };
+            };
+
+            // Function to draw the lines for Main Calculator
+            const drawLineGridMain = () => {
+                // Ensure canvas matches the size of its parent for correct coordinate mapping
+                lineDrawingCanvasMain.width = allKhongDekResults.offsetWidth;
+                lineDrawingCanvasMain.height = allKhongDekResults.offsetHeight;
+                lineDrawingCanvasMain.style.display = 'block'; // Show the canvas
+
+                ctxMain.clearRect(0, 0, lineDrawingCanvasMain.width, lineDrawingCanvasMain.height); // Clear previous drawings
+                ctxMain.strokeStyle = 'red';
+                ctxMain.lineWidth = 2;
+
+                const getCell = (rowIndex, colIndex) => {
+                    // Find the element with matching data-row and data-col
+                    return allKhongDekResults.querySelector(`[data-row="${rowIndex}"][data-col="${colIndex}"]`);
+                };
+
+                // Define drawSegment for Main Calculator locally
+                const drawSegment = (startCell, endCell) => {
+                    if (startCell && endCell) {
+                        const start = getCellCenterMain(startCell);
+                        const end = getCellCenterMain(endCell);
+                        ctxMain.beginPath();
+                        ctxMain.moveTo(start.x, start.y);
+                        ctxMain.lineTo(end.x, end.y);
+                        ctxMain.stroke();
+                    }
+                };
+
+                // Lines in the 2nd row (index 1 of number-row-container) and 3rd row (index 2)
+                const row1Idx = 1; // Khong Dek Month row (actual rowIndex in DOM)
+                const row2Idx = 2; // Khong Dek Animal Year row (actual rowIndex in DOM)
+
+                // Get cells for horizontal lines in display row 2 (row index 1)
+                let cell_R1_C3 = getCell(row1Idx, 3);
+                let cell_R1_C4 = getCell(row1Idx, 4);
+                let cell_R1_C5 = getCell(row1Idx, 5);
+                let cell_R1_C6 = getCell(row1Idx, 6);
+
+                // Get cells for horizontal lines in display row 3 (row index 2)
+                let cell_R2_C3 = getCell(row2Idx, 3);
+                let cell_R2_C4 = getCell(row2Idx, 4);
+                let cell_R2_C5 = getCell(row2Idx, 5);
+                let cell_R2_C6 = getCell(row2Idx, 6);
+
+                // Draw horizontal lines in display row 2
+                drawSegment(cell_R1_C3, cell_R1_C4);
+                drawSegment(cell_R1_C4, cell_R1_C5);
+                drawSegment(cell_R1_C5, cell_R1_C6);
+
+                // Draw horizontal lines in display row 3
+                drawSegment(cell_R2_C3, cell_R2_C4);
+                drawSegment(cell_R2_C4, cell_R2_C5);
+                drawSegment(cell_R2_C5, cell_R2_C6);
+
+                // Draw vertical lines
+                drawSegment(cell_R1_C3, cell_R2_C3);
+                drawSegment(cell_R1_C4, cell_R2_C4);
+                drawSegment(cell_R1_C5, cell_R2_C5);
+                drawSegment(cell_R1_C6, cell_R2_C6);
+            };
+
+            // Function to draw the lines for Jata Yeam Section
+            const drawLineGridJataYeam = () => {
+                lineDrawingCanvasJataYeam.width = jataYeamResultDisplay.offsetWidth;
+                lineDrawingCanvasJataYeam.height = jataYeamResultDisplay.offsetHeight;
+                lineDrawingCanvasJataYeam.style.display = 'block';
+
+                ctxJataYeam.clearRect(0, 0, lineDrawingCanvasJataYeam.width, lineDrawingCanvasJataYeam.height);
+                ctxJataYeam.strokeStyle = 'red';
+                ctxJataYeam.lineWidth = 2;
+
+                const getCellJataYeam = (rowIndex, colIndex) => {
+                    return jataYeamResultDisplay.querySelector(`[data-row="${rowIndex}"][data-col="${colIndex}"]`);
+                };
+
+                // Define drawSegmentJataYeam for Jata Yeam Section locally
+                const drawSegmentJataYeam = (startCell, endCell) => {
+                    if (startCell && endCell) {
+                        const start = getCellCenterJataYeam(startCell);
+                        const end = getCellCenterJataYeam(endCell);
+                        ctxJataYeam.beginPath();
+                        ctxJataYeam.moveTo(start.x, start.y);
+                        ctxJataYeam.lineTo(end.x, end.y);
+                        ctxJataYeam.stroke();
+                    }
+                };
+
+                // Lines are between Row 1 (Month row) and Row 2 (Year row)
+                const row1IdxJataYeam = 1; // Month row (data-row="1")
+                const row2IdxJataYeam = 2; // Year row (data-row="2")
+
+                let cell_JR1_C3 = getCellJataYeam(row1IdxJataYeam, 3);
+                let cell_JR1_C4 = getCellJataYeam(row1IdxJataYeam, 4);
+                let cell_JR1_C5 = getCellJataYeam(row1IdxJataYeam, 5);
+                let cell_JR1_C6 = getCellJataYeam(row1IdxJataYeam, 6);
+
+                let cell_JR2_C3 = getCellJataYeam(row2IdxJataYeam, 3);
+                let cell_JR2_C4 = getCellJataYeam(row2IdxJataYeam, 4);
+                let cell_JR2_C5 = getCellJataYeam(row2IdxJataYeam, 5);
+                let cell_JR2_C6 = getCellJataYeam(row2IdxJataYeam, 6);
+
+                // Draw horizontal lines in Month row
+                drawSegmentJataYeam(cell_JR1_C3, cell_JR1_C4);
+                drawSegmentJataYeam(cell_JR1_C4, cell_JR1_C5);
+                drawSegmentJataYeam(cell_JR1_C5, cell_JR1_C6);
+
+                // Draw horizontal lines in Year row
+                drawSegmentJataYeam(cell_JR2_C3, cell_JR2_C4);
+                drawSegmentJataYeam(cell_JR2_C4, cell_JR2_C5);
+                drawSegmentJataYeam(cell_JR2_C5, cell_JR2_C6);
+
+                // Draw vertical lines
+                drawSegmentJataYeam(cell_JR1_C3, cell_JR2_C3);
+                drawSegmentJataYeam(cell_JR1_C4, cell_JR2_C4);
+                drawSegmentJataYeam(cell_JR1_C5, cell_JR2_C5);
+                drawSegmentJataYeam(cell_JR1_C6, cell_JR2_C6);
+            };
+
+            // Helper function to append row to DOM
+            const appendRow = (elements, parentElement) => {
+                const rowContainer = document.createElement('div');
+                rowContainer.classList.add('flex', 'flex-col', 'items-center', 'justify-center'); // Removed mb-2
+
+                const div = document.createElement('div');
+                div.classList.add('number-row-container');
+                elements.forEach(el => div.appendChild(el));
+                rowContainer.appendChild(div);
+                
+                parentElement.appendChild(rowContainer); 
+            };
+
+
+            calculateBtn.addEventListener('click', () => {
+                hideMainMessages(); // Clear previous messages
+
+                let dayOfWeekValue = parseInt(dayOfWeekInput.value);
+                let lunarMonthValue = parseInt(lunarMonthInput.value);
+                let lunarAnimalYearValue = parseInt(lunarAnimalYearInput.value);
+
+                // Input validation for day of week (1-7)
+                if (isNaN(dayOfWeekValue) || dayOfWeekInput.value.trim() === '' ||
+                    dayOfWeekValue < 1 || dayOfWeekValue > 7) {
+                    showMainErrorMessage('សូមបញ្ចូលថ្ងៃក្នុងសប្តាហ៍ជាលេខពី 1 ដល់ 7។');
+                    return;
+                }
+                // Input validation for month (1-7)
+                if (isNaN(lunarMonthValue) || lunarMonthInput.value.trim() === '' ||
+                    lunarMonthValue < 1 || lunarMonthValue > 7) {
+                    showMainErrorMessage('សូមបញ្ចូលខែជាលេខពី 1 ដល់ 7។');
+                    return;
+                }
+                // Input validation for animal year (1-7)
+                if (isNaN(lunarAnimalYearValue) || lunarAnimalYearInput.value.trim() === '' ||
+                    lunarAnimalYearValue < 1 || lunarAnimalYearValue > 7) {
+                    showMainErrorMessage('សូមបញ្ចូលឆ្នាំសត្វជាលេខពី 1 ដល់ 7។');
+                    return;
+                }
+
+                // Get the selected numbering option.
+                const selectedNumberOption = mainNumberOptionSelect.value;
+
+
+                // Apply the normalization rule to each input value (always normalize to 1-7 for inputs, as per Atta rules)
+                dayOfWeekValue = normalizeToSeven(dayOfWeekValue);
+                lunarMonthValue = normalizeToSeven(lunarMonthValue);
+                lunarAnimalYearValue = normalizeToSeven(lunarAnimalYearValue);
+
+                // Generate Khong Dek sequences as arrays (for internal calculation based on 1-7)
+                const khongDekDaySequenceNums = generateKhongDekSequence(dayOfWeekValue);
+                const khongDekMonthSequenceNums = generateKhongDekSequence(lunarMonthValue);
+                const khongDekAnimalYearSequenceNums = generateKhongDekSequence(lunarAnimalYearValue);
+
+                // Calculate Khong Banchhor (Vertical Digits) - raw sum
+                const khongBanchhorSequence = [];
+                for (let i = 0; i < 7; i++) {
+                    const sum = khongDekDaySequenceNums[i] + khongDekMonthSequenceNums[i] + khongDekAnimalYearSequenceNums[i];
+                    khongBanchhorSequence.push(sum);
+                }
+
+                // Logic for Khong Dek 8 (ជួរទី 8) - Normalized sum of Khong Banchhor values
+                const khongDekEightSequence = [];
+                for (let i = 0; i < 7; i++) {
+                    const normalizedSum = normalizeToSeven(khongBanchhorSequence[i]);
+                    khongDekEightSequence.push(normalizedSum);
+                }
+
+                // Calculate Khong Dek 6 (Based on Khong Dek 8 * 2, then normalize to 1-7)
+                const khongDekSixSequence = [];
+                for (let i = 0; i < 7; i++) {
+                    let multipliedValue = khongDekEightSequence[i] * 2;
+                    khongDekSixSequence.push(normalizeToSeven(multipliedValue));
+                }
+
+                // Calculate Khong Dek 7 (New row based on Khong Dek 6 * 2, then normalize to 1-7)
+                const khongDekSevenSequence = [];
+                for (let i = 0; i < 7; i++) {
+                    let multipliedValue = khongDekSixSequence[i] * 2;
+                    khongDekSevenSequence.push(normalizeToSeven(multipliedValue));
+                }
+
+                // Calculation for Khong Dek Nine (previously "ជួរចុងក្រោយ")
+                const initialSumForNine = dayOfWeekValue + lunarMonthValue + lunarAnimalYearValue;
+                const normalizedInitialSumForNine = normalizeToSeven(initialSumForNine);
+                
+                const khongDekNineSequence = khongDekNineMappings[normalizedInitialSumForNine];
+
+                // NEW CALCULATION FOR THE FINAL ANSWER ROW (ជួរចម្លើយចុងក្រោយ)
+                // 1. Get the 28th digit (which is the last digit of Khong Banchhor Sequence, index 6)
+                const digit28 = khongBanchhorSequence[6];
+
+                // 2. Get the 56th digit (which is the last digit of Khong Dek Nine Sequence, index 6)
+                const digit56 = khongDekNineSequence[6];
+
+                // 3. Sum these two digits
+                const sumOfDigits = digit28 + digit56;
+
+                // 4. Normalize the sum to get the key for the final answer sequence
+                const finalAnswerDigitKey = normalizeToSeven(sumOfDigits);
+
+                // 5. Get the final answer sequence from the predefined mappings
+                const khongDekLastSequence = finalAnswerMappings[finalAnswerDigitKey];
+
+
+                // Define highlight rules for each sequence based on the provided image
+                const khongDekDayHighlightRules = [{ indices: [1], values: null, colorClass: 'highlight-red' }];
+
+                const khongDekMonthHighlightRules = [
+                    // Rule: 13th digit overall (index 5 of month sequence) should always be red
+                    { indices: [5], values: null, colorClass: 'highlight-red' }
+                ];
+                
+                // khongDekAnimalYearHighlightRules array: Re-adding highlight for index 0 (15th digit overall) AND index 4 (19th digit overall)
+                const khongDekAnimalYearHighlightRules = [{ indices: [0, 4], values: null, colorClass: 'highlight-red' }];
+
+                const khongBanchhorHighlightRules = [
+                    // Green highlight rule for specific values (no glow)
+                    {
+                        indices: [0, 1, 2, 3, 4, 5, 6], // Corresponds to global positions 22-28
+                        values: [9, 11, 16, 19],
+                        colorClass: 'highlight-green'
+                    },
+                    // Red highlight rule for specific values
+                    {
+                        indices: [0, 1, 2, 3, 4, 5, 6], // Corresponds to global positions 22-28
+                        values: [12, 3, 8, 7, 10, 20],
+                        colorClass: 'highlight-red'
+                    },
+                    // Light Green highlight rule for specific values (formerly yellow)
+                    {
+                        indices: [0, 1, 2, 3, 4, 5, 6], // Corresponds to global positions 22-28
+                        values: [5, 13, 15, 17, 21, 4, 6, 18, 14], // Added 14 here
+                        colorClass: 'highlight-light-green' // Changed to light green class
+                    }
+                ];
+
+                const khongDekEightHighlightRules = [{ indices: [1], values: null, colorClass: 'highlight-red' }];
+                const khongDekSixHighlightRules = [{ indices: [5], values: null, colorClass: 'highlight-red' }];
+                const khongDekSevenHighlightRules = [{ indices: [0, 4], values: null, colorClass: 'highlight-red' }];
+                
+                // Add highlight for index 4 (54th digit overall) and index 5 (55th digit overall) in khongDekNineHighlightRules
+                const khongDekNineHighlightRules = [{ indices: [4, 5], values: null, colorClass: 'highlight-red' }]; 
+                const khongDekLastHighlightRules = []; // No highlights for this row
+
+
+                // Clear previous HTML content and append new elements
+                allKhongDekResults.innerHTML = ''; 
+                allKhongDekResults.appendChild(lineDrawingCanvasMain); // Ensure canvas is appended first
+                
+                allKhongDekResults.classList.remove('hidden');
+
+                // Format all sequences with row index for display, passing empty string for labels
+                appendRow(formatSequenceForDisplay(khongDekDaySequenceNums, khongDekDayHighlightRules, selectedNumberOption, 0), allKhongDekResults);
+                appendRow(formatSequenceForDisplay(khongDekMonthSequenceNums, khongDekMonthHighlightRules, selectedNumberOption, 1), allKhongDekResults);
+                appendRow(formatSequenceForDisplay(khongDekAnimalYearSequenceNums, khongDekAnimalYearHighlightRules, selectedNumberOption, 2), allKhongDekResults);
+                allKhongDekResults.innerHTML += '<hr class="my-4 border-t-2 border-black mx-auto w-full">';
+                appendRow(formatSequenceForDisplay(khongBanchhorSequence, khongBanchhorHighlightRules, selectedNumberOption, 3), allKhongDekResults);
+                appendRow(formatSequenceForDisplay(khongDekEightSequence, khongDekEightHighlightRules, selectedNumberOption, 4), allKhongDekResults);
+                appendRow(formatSequenceForDisplay(khongDekSixSequence, khongDekSixHighlightRules, selectedNumberOption, 5), allKhongDekResults);
+                appendRow(formatSequenceForDisplay(khongDekSevenSequence, khongDekSevenHighlightRules, selectedNumberOption, 6), allKhongDekResults);
+                allKhongDekResults.innerHTML += '<hr class="my-4 border-t-2 border-black mx-auto w-full">';
+                appendRow(formatSequenceForDisplay(khongDekNineSequence, khongDekNineHighlightRules, selectedNumberOption, 7), allKhongDekResults);
+                appendRow(formatSequenceForDisplay(khongDekLastSequence, khongDekLastHighlightRules, selectedNumberOption, 8), allKhongDekResults);
+
+                // Draw lines after all elements are in the DOM and rendered
+                setTimeout(drawLineGridMain, 50); // Small delay might help in some browsers/rendering conditions
+
+                inputControls.classList.add('hidden'); // Hide input fields and calculate button
+                // Hide specific elements as per user's request for calculation display
+                mainTitle.classList.add('hidden');
+                mainDescription.classList.add('hidden');
+                mainNumberOptionControl.classList.add('hidden');
+                dropdownContainer.classList.add('hidden'); // Hide the dropdown container (plus button)
+                profilePicture.parentElement.classList.add('hidden'); // Hide the anchor tag (which contains the profile picture)
+            });
+
+            // Event listener for the "Create New" button (now functions as a reset for the calculator)
+            createNewBtn.addEventListener('click', () => {
+                allKhongDekResults.classList.add('hidden'); // Hide results
+                inputControls.classList.remove('hidden'); // Show input fields and calculate button
+                dayOfWeekInput.value = ''; // Clear input fields
+                lunarMonthInput.value = '';
+                lunarAnimalYearInput.value = '';
+                errorMessage.classList.add('hidden'); // Hide any error messages
+                
+                // Show specific elements as per user's request for initial display
+                mainTitle.classList.remove('hidden');
+                mainDescription.classList.remove('hidden');
+                mainNumberOptionControl.classList.remove('hidden');
+                dropdownContainer.classList.remove('hidden'); // Show the dropdown container (plus button)
+                profilePicture.parentElement.classList.remove('hidden'); // Show the anchor tag (which contains the profile picture)
+
+                // Hide and clear canvas when resetting
+                lineDrawingCanvasMain.style.display = 'none';
+                ctxMain.clearRect(0, 0, lineDrawingCanvasMain.width, lineDrawingCanvasMain.height);
+            });
+
+            // Function to get the representative number (1-7) for Khmer lunar months
+            // based on the new order starting with មិគសិរ as 1.
+            const getKhmerLunarMonthRepresentativeNumber = (gregorianMonthIndex) => {
+                let newOrderMonthNumber; // This will be 1-12
+                // Map Gregorian month index to user's specified new order (1-12)
+                // មិគសិរ is Gregorian December (index 11) -> new order 1
+                // បុស្ស is Gregorian January (index 0) -> new order 2
+                // មាឃ is Gregorian February (index 1) -> new order 3
+                // ផល្គុន is Gregorian March (index 2) -> new order 4
+                // ចេត្រ is Gregorian April (index 3) -> new order 5
+                // ពិសាខ is Gregorian May (index 4) -> new order 6
+                // ជេស្ឋ is Gregorian June (index 5) -> new order 7
+                // អាសាឍ is Gregorian July (index 6) -> new order 8
+                // ស្រាពណ៍ is Gregorian August (index 7) -> new order 9
+                // ភទ្របទ is Gregorian September (index 8) -> new order 10
+                // អស្សុជ is Gregorian October (index 9) -> new order 11
+                // កត្តិក is Gregorian November (index (10)) -> new order 12
+                if (gregorianMonthIndex === 11) { 
+                    newOrderMonthNumber = 1; // មិគសិរ
+                } else if (gregorianMonthIndex === 0) {
+                    newOrderMonthNumber = 2; // បុស្ស
+                } else if (gregorianMonthIndex === 1) {
+                    newOrderMonthNumber = 3; // មាឃ
+                } else if (gregorianMonthIndex === 2) {
+                    newOrderMonthNumber = 4; // ផល្គុន
+                } else if (gregorianMonthIndex === 3) {
+                    newOrderMonthNumber = 5; // ចេត្រ
+                } else if (gregorianMonthIndex === 4) {
+                    newOrderMonthNumber = 6; // ពិសាខ
+                } else if (gregorianMonthIndex === 5) {
+                    newOrderMonthNumber = 7; // ជេស្ឋ
+                } else if (gregorianMonthIndex === 6) {
+                    newOrderMonthNumber = 8; // អាសាឍ
+                } else if (gregorianMonthIndex === 7) {
+                    newOrderMonthNumber = 9; // ស្រាពណ៍
+                } else if (gregorianMonthIndex === 8) {
+                    newOrderMonthNumber = 10; // ភទ្របទ
+                } else if (gregorianMonthIndex === 9) {
+                    newOrderMonthNumber = 11; // អស្សុជ
+                } else if (gregorianMonthIndex === 10) {
+                    newOrderMonthNumber = 12; // កត្តិក
+                } else {
+                    newOrderMonthNumber = 1; // Fallback to មិគសិរ if unexpected index
+                }
+                // Normalize this 1-12 month number to the 1-7 range using the existing function
+                // This function already handles the "if number > 7, subtract 7" logic via modulo.
+                return normalizeToSeven(newOrderMonthNumber);
+            };
+
+            // Function to update the current time, day, and month displays in Jata Yeam section
+            const updateJataYeamDateTimeDisplay = () => {
+                const now = new Date();
+                const hour = now.getHours();
+                const minute = now.getMinutes();
+                const gregorianDayIndex = now.getDay(); // 0 for Sunday, 6 for Saturday
+                const monthIndex = now.getMonth(); // 0 for January, 11 for December (Gregorian)
+
+                // Format time
+                const formattedTime = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
+                currentTimeDisplay.textContent = formattedTime;
+
+                // Day names in Khmer (based on Gregorian day for display, not the effective day)
+                const khmerDayNames = ['អាទិត្យ', 'ច័ន្ទ', 'អង្គារ', 'ពុធ', 'ព្រហស្បតិ៍', 'សុក្រ', 'សៅរ៍'];
+                currentDayDisplay.textContent = khmerDayNames[gregorianDayIndex];
+
+                // Khmer Lunar (Chantakate) month names for display - ordered by Gregorian month (as approximation for display)
+                const khmerLunarMonthNamesDisplay = [
+                    'បុស្ស', 'មាឃ', 'ផល្គុន', 'ចេត្រ', 'ពិសាខ', 'ជេស្ឋ', // Jan-June (Gregorian mapping)
+                    'អាសាឍ', 'ស្រាពណ៍', 'ភទ្របទ', 'អស្សុជ', 'កត្តិក', 'មិគសិរ'  // July-Dec (Gregorian mapping)
+                ];
+                currentMonthDisplay.textContent = khmerLunarMonthNamesDisplay[monthIndex];
+            };
+
+            // Function to update the current date display in Chomras Ayu Chor section
+            const updateCurrentDateDisplayChomras = () => {
+                const now = new Date();
+                const day = String(now.getDate()).padStart(2, '0');
+                const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+                const year = now.getFullYear();
+                currentDateDisplayChomras.textContent = `${day}/${month}/${year}`;
+            };
+
+
+            // Event listener for the "Go Back" button (from jata yeam section)
+            jataYeamGoBackBtn.addEventListener('click', () => {
+                jataYeamOddhakalSection.classList.add('hidden');
+                mainCalculator.classList.remove('hidden');
+                // Clear any results or error messages from Jata Yeam Oddhakal section
+                hideJataYeamMessages(); // Use the dedicated hide function
+                // Show initial elements for Jata Yeam section when returning to it later
+                // This is handled by the dropdown click event for 'jata-yeam'
+                
+                // Ensure main calculator is clean (inputs, results, canvas)
+                dayOfWeekInput.value = '';
+                lunarMonthInput.value = '';
+                lunarAnimalYearInput.value = '';
+                hideMainMessages();
+                lineDrawingCanvasMain.style.display = 'none';
+                ctxMain.clearRect(0, 0, lineDrawingCanvasMain.width, lineDrawingCanvasMain.height);
+                lineDrawingCanvasJataYeam.style.display = 'none';
+                ctxJataYeam.clearRect(0, 0, lineDrawingCanvasJataYeam.width, lineDrawingCanvasJataYeam.height);
+
+                dropdownContainer.classList.remove('hidden'); // Show the dropdown container (plus button)
+                profilePicture.parentElement.classList.remove('hidden'); // Show the anchor tag (which contains the profile picture)
+
+                // Clear any running interval for time update
+                if (updateIntervalId) {
+                    clearInterval(updateIntervalId);
+                    updateIntervalId = null;
+                }
+            });
+
+            // MODIFIED: Event listener for the "Go Back" button (from chomras ayu chor section)
+            chomrasAyuChorGoBackBtn.addEventListener('click', () => {
+                // Hide Chomras Ayu Chor section
+                chomrasAyuChorSection.classList.add('hidden');
+                // Show main calculator
+                mainCalculator.classList.remove('hidden');
+
+                // Ensure the main calculator's elements are visible
+                mainTitle.classList.remove('hidden');
+                mainDescription.classList.remove('hidden');
+                mainNumberOptionControl.classList.remove('hidden');
+                inputControls.classList.remove('hidden');
+                dropdownContainer.classList.remove('hidden');
+                profilePicture.parentElement.classList.remove('hidden'); // Show the anchor tag (which contains the profile picture)
+
+                // Clear any previous results or error messages from main calculator if any
+                hideMainMessages();
+                lineDrawingCanvasMain.style.display = 'none';
+                ctxMain.clearRect(0, 0, lineDrawingCanvasMain.width, lineDrawingCanvasMain.height);
+
+                // Clear any running interval for current date update from Chomras Ayu Chor
+                if (updateCurrentDateIntervalId) {
+                    clearInterval(updateCurrentDateIntervalId);
+                    updateCurrentDateIntervalId = null;
+                }
+            });
+
+            // Zodiac Age Calculator "Go Back" button is no longer active as the section is removed
+            // zodiacAgeGoBackBtn.addEventListener('click', () => {
+            //     zodiacAgeCalculatorSection.classList.add('hidden');
+            //     mainCalculator.classList.remove('hidden');
+
+            //     mainTitle.classList.remove('hidden');
+            //     mainDescription.classList.remove('hidden');
+            //     mainNumberOptionControl.classList.remove('hidden');
+            //     inputControls.classList.remove('hidden');
+            //     dropdownContainer.classList.remove('hidden');
+
+            //     hideZodiacAgeMessages(); 
+            //     birthAnimalYearZodiacSelect.value = ''; 
+            //     ageTierZodiacSelect.value = '';
+            // });
+
+
+            // Highlight rules for Jata Yeam section
+            const jataYeamDayHighlightRules = [{ indices: [1], values: null, colorClass: 'highlight-red' }]; // For Watch Number row (row 0 in Jata Yeam results)
+            const jataYeamMonthHighlightRules = [{ indices: [5], values: null, colorClass: 'highlight-red' }]; // For Month row (row 1 in Jata Yeam results)
+            const jataYeamYearHighlightRules = [{ indices: [0, 4], values: null, colorClass: 'highlight-red' }]; // For Year row (row 2 in Jata Yeam results)
+
+            const jataYeamKhongBanchhorHighlightRules = [
+                { indices: [0, 1, 2, 3, 4, 5, 6], values: [9, 11, 16, 19], colorClass: 'highlight-green' },
+                { indices: [0, 1, 2, 3, 4, 5, 6], values: [12, 3, 8, 7, 10, 20], colorClass: 'highlight-red' },
+                { indices: [0, 1, 2, 3, 4, 5, 6], values: [5, 13, 15, 17, 21, 4, 6, 18, 14], colorClass: 'highlight-light-green' }
+            ];
+
+            const jataYeamKhongDekEightHighlightRules = [{ indices: [1], values: null, colorClass: 'highlight-red' }];
+            const jataYeamKhongDekSixHighlightRules = [{ indices: [5], values: null, colorClass: 'highlight-red' }];
+            const jataYeamKhongDekSevenHighlightRules = [{ indices: [0, 4], values: null, colorClass: 'highlight-red' }];
+            const jataYeamKhongDekNineHighlightRules = [{ indices: [4, 5], values: null, colorClass: 'highlight-red' }];
+            const jataYeamKhongDekLastHighlightRules = []; // No highlights for this row
+
+            // Function to get the 16 "check numbers" based on the PHP logic
+            const getAttaCheckNumber = (dayStartNumber) => {
+                const resultData = [];
+                let number = dayStartNumber;
+
+                // First loop (indices 0 to 7 in JS array, corresponding to 1 to 8 in PHP's 1-indexed array)
+                for (let j = 0; j < 8; j++) {
+                    if (j === 0) { // First iteration
+                        number = dayStartNumber;
+                    } else {
+                        if (number === 1) {
+                            number = 1 + 5;
+                        } else if (number === 2) {
+                            number = 2 + 5;
+                        } else if (number === 3) {
+                            number = 3 - 2;
+                        } else if (number === 4) {
+                            number = 4 - 2;
+                        } else if (number === 5) {
+                            number = 5 - 2;
+                        } else if (number === 6) {
+                            number = 6 - 2;
+                        } else if (number === 7) {
+                            number = 7 - 2;
+                        }
+                    }
+                    resultData.push(number);
+                }
+
+                number = dayStartNumber; // Reset number for the second sequence
+                // Second loop (indices 8 to 15 in JS array, corresponding to 9 to 16 in PHP's 1-indexed array)
+                for (let i = 0; i < 8; i++) {
+                    if (i === 0) { // First iteration of this loop
+                        number = dayStartNumber;
+                    } else {
+                        if (number === 1) {
+                            number = 1 + 4;
+                        } else if (number === 2) {
+                            number = 2 + 4;
+                        } else if (number === 3) {
+                            number = 3 + 4;
+                        } else if (number === 4) {
+                            number = 4 - 3;
+                        } else if (number === 5) {
+                            number = 5 - 3;
+                        } else if (number === 6) {
+                            number = 6 - 3;
+                        } else if (number === 7) {
+                            number = 7 - 3;
+                        }
+                    }
+                    resultData.push(number);
+                }
+                return resultData;
+            };
+
+            // Function to get the 16-yeam schedule and current yeam from PHP logic
+            const getJataYeamSchedule = () => {
+                const schedule = [];
+                let currentScheduleTime = new Date();
+                currentScheduleTime.setHours(6, 0, 0, 0); // Start at 06:00 AM for schedule calculation
+
+                const numGuards = 16;
+                const guardDurationMinutes = 90; // 1 hour 30 minutes = 90 minutes
+
+                const now = new Date();
+                // Create a DateTime object for only the time portion of 'now'
+                // Set a dummy date to avoid issues if the schedule crosses midnight and the 'now' date is different
+                const dummyDate = new Date();
+                dummyDate.setHours(0, 0, 0, 0); // Reset to beginning of day for dummy date
+
+                const nowTimeOnly = new Date(dummyDate);
+                nowTimeOnly.setHours(now.getHours(), now.getMinutes(), 0, 0);
+
+                for (let i = 1; i <= numGuards; i++) {
+                    const slotStartDt = new Date(currentScheduleTime); // Clone for start time
+
+                    currentScheduleTime.setMinutes(currentScheduleTime.getMinutes() + guardDurationMinutes);
+                    const slotEndDt = new Date(currentScheduleTime); // Clone for end time
+
+                    // Handle midnight crossing for the end time of the slot
+                    if (slotEndDt.getHours() < slotStartDt.getHours() || (slotEndDt.getHours() === slotStartDt.getHours() && slotEndDt.getMinutes() < slotStartDt.getMinutes())) {
+                        slotEndDt.setDate(slotEndDt.getDate() + 1); // Add a day if it crossed midnight
+                    }
+
+                    let isCurrent = false;
+                    // Check if the current time falls within this slot
+                    // Logic for time range: (current_time >= start_time AND current_time < end_time)
+                    // Special case for midnight crossing (e.g., 22:30 - 00:00)
+                    const nowTimeForComparison = new Date(dummyDate);
+                    nowTimeForComparison.setHours(now.getHours(), now.getMinutes(), now.getSeconds(), now.getMilliseconds());
+
+                    const slotStartForComparison = new Date(dummyDate);
+                    slotStartForComparison.setHours(slotStartDt.getHours(), slotStartDt.getMinutes(), slotStartDt.getSeconds(), slotStartDt.getMilliseconds());
+
+                    const slotEndForComparison = new Date(dummyDate);
+                    slotEndForComparison.setHours(slotEndDt.getHours(), slotEndDt.getMinutes(), slotEndDt.getSeconds(), slotEndDt.getMilliseconds());
+
+                    if (slotStartForComparison <= slotEndForComparison) { // Normal time range (e.g., 08:00 - 09:30)
+                        if (nowTimeForComparison >= slotStartForComparison && nowTimeForComparison < slotEndForComparison) {
+                            isCurrent = true;
+                        }
+                    } else { // Time range crosses midnight (e.g., 22:30 - 00:00 or 23:00 - 01:00)
+                        // Current time is between start_time and midnight OR between midnight and end_time
+                        if (nowTimeForComparison >= slotStartForComparison || nowTimeForComparison < slotEndForComparison) {
+                            isCurrent = true;
+                        }
+                    }
+
+                    schedule.push({
+                        number: i,
+                        start_time_khmer: `${String(slotStartDt.getHours()).padStart(2, '0')}:${String(slotStartDt.getMinutes()).padStart(2, '0')}`,
+                        end_time_khmer: `${String(slotEndDt.getHours()).padStart(2, '0')}:${String(slotEndDt.getMinutes()).padStart(2, '0')}`,
+                        is_current: isCurrent
+                    });
+                }
+                return schedule;
+            };
+
+            // New function to display "យាមទី" and "ជាយាម"
+            const displayJataYeamFinalResults = (selectedNumberOption) => {
+                const now = new Date();
+                const hour = now.getHours();
+                const minute = now.getMinutes();
+                const gregorianDayIndex = now.getDay(); // 0 for Sunday, 6 for Saturday
+
+                const watchInfo = getWatchNumber(hour, minute, gregorianDayIndex);
+                const D_jata_yeam = watchInfo.baseValue;
+
+                if (D_jata_yeam === null) {
+                    yeamNumberDisplay.textContent = '--';
+                    yeamAttaResultDisplay.textContent = '--';
+                    jataYeamFinalResults.classList.add('hidden');
+                    return;
+                }
+
+                const scheduleData = getJataYeamSchedule();
+                const currentSlots = scheduleData.filter(slot => slot.is_current);
+
+                if (currentSlots.length > 0) {
+                    const currentYeamNumber = currentSlots[0].number; // This is 1-indexed (1 to 16)
+                    const attaCheckNumbers = getAttaCheckNumber(watchInfo.currentDayNumber); // Use the effective day number
+
+                    let yeamAttaResult = '';
+                    if (currentYeamNumber >= 1 && currentYeamNumber <= attaCheckNumbers.length) {
+                        const resultNumber = attaCheckNumbers[currentYeamNumber - 1]; // Adjust to 0-indexed array
+                        if (selectedNumberOption === 'khmerNumbers') {
+                            yeamAttaResult = convertToKhmerNumerals(resultNumber);
+                        } else if (selectedNumberOption === 'khmerAtta') {
+                            yeamAttaResult = khmerAttaNumeralsMap[resultNumber] || String(resultNumber);
+                        } else {
+                            yeamAttaResult = String(resultNumber);
+                        }
+                    } else {
+                        yeamAttaResult = 'N/A'; // Should not happen if logic is correct
+                    }
+
+                    // Display the results
+                    if (selectedNumberOption === 'khmerNumbers') {
+                        yeamNumberDisplay.innerHTML = convertToKhmerNumerals(currentYeamNumber);
+                    } else if (selectedNumberOption === 'khmerAtta') {
+                        yeamNumberDisplay.innerHTML = khmerAttaNumeralsMap[currentYeamNumber] || String(currentYeamNumber);
+                    } else {
+                        yeamNumberDisplay.innerHTML = String(currentYeamNumber);
+                    }
+                    
+                    yeamAttaResultDisplay.innerHTML = yeamAttaResult;
+                    jataYeamFinalResults.classList.remove('hidden'); // Show the final results box
+                } else {
+                    yeamNumberDisplay.textContent = '--';
+                    yeamAttaResultDisplay.textContent = '--';
+                    jataYeamFinalResults.classList.add('hidden'); // Hide if no current slot
+                }
+            };
+
+
+            // Modified: Calculation for Jata Yeam Oddhakal (now includes Month Row and Year Row calculation)
+            calculateCurrentJataYeamBtn.addEventListener('click', () => {
+                const now = new Date();
+                const hour = now.getHours();
+                const minute = now.getMinutes();
+                const gregorianDayIndex = now.getDay(); // 0 for Sunday, 6 for Saturday
+                const gregorianMonthIndex = now.getMonth(); // 0 for January, 11 for December
+
+                // Hide all elements that should not be visible after calculation
+                // As per user's request, hide these elements after the calculation button is clicked.
+                jataYeamTitle.classList.add('hidden');
+                jataYeamDescription.classList.add('hidden');
+                jataYeamDateTimeDisplay.classList.add('hidden');
+                jataYeamErrorMessage.classList.add('hidden');
+                jataYeamNumberOptionControl.classList.add('hidden'); // Hide "ផ្លាស់ប្តូរលេខ:"
+
+                const selectedNumberOption = jataYeamNumberOptionSelect.value; // Use Jata Yeam's numbering option
+
+                // Clear previous content in jataYeamResultDisplay to prepare for sequences
+                jataYeamResultDisplay.innerHTML = ''; 
+                jataYeamResultDisplay.appendChild(lineDrawingCanvasJataYeam); // Ensure canvas is appended first
+
+                // --- គណនាចាប់យាមអដ្ខកាល (Calculate Current Watch) ---
+                const watchInfo = getWatchNumber(hour, minute, gregorianDayIndex); // Pass Gregorian dayIndex
+                const D_jata_yeam_raw = watchInfo.baseValue; // This is the base for the first row (original)
+
+                if (D_jata_yeam_raw === null) {
+                    // If there's an error, show only the error message and hide everything else
+                    jataYeamErrorMessage.textContent = `ម៉ោងបច្ចុប្បន្នមិនស្ថិតក្នុងចន្លោះគណនាយាមដែលបានកំណត់ទេ។`;
+                    jataYeamErrorMessage.classList.remove('hidden');
+                    jataYeamResultDisplay.classList.add('hidden'); // Ensure numbers are hidden on error
+                    jataYeamFinalResults.classList.add('hidden'); // Hide final results on error
+                    return;
+                }
+
+                // --- NEW LOGIC FOR "ជួរថ្ងៃ" (Day Row) ---
+                const scheduleData = getJataYeamSchedule();
+                const currentSlots = scheduleData.filter(slot => slot.is_current);
+
+                if (currentSlots.length === 0) {
+                    jataYeamErrorMessage.textContent = `មិនអាចកំណត់យាមបច្ចុប្បន្នបានទេ។`;
+                    jataYeamErrorMessage.classList.remove('hidden');
+                    jataYeamResultDisplay.classList.add('hidden'); // Ensure numbers are hidden on error
+                    jataYeamFinalResults.classList.add('hidden'); // Hide final results on error
+                    return;
+                }
+
+                const currentYeamNumber = currentSlots[0].number; // This is 1-indexed (1 to 16)
+                const attaCheckNumbers = getAttaCheckNumber(watchInfo.currentDayNumber); // Use the effective day number
+
+                let resultNumberForDayRow = null;
+                if (currentYeamNumber >= 1 && currentYeamNumber <= attaCheckNumbers.length) {
+                    resultNumberForDayRow = attaCheckNumbers[currentYeamNumber - 1]; // Adjust to 0-indexed array
+                } else {
+                    jataYeamErrorMessage.textContent = `មានបញ្ហាក្នុងការគណនាលេខយាម។`;
+                    jataYeamErrorMessage.classList.remove('hidden');
+                    jataYeamResultDisplay.classList.add('hidden'); // Ensure numbers are hidden on error
+                    jataYeamFinalResults.classList.add('hidden'); // Hide final results on error
+                    return;
+                }
+
+                // First Row (Day based on the "ជាយាម:" resultNumber)
+                const khongDekDaySequenceNums_Jata = generateKhongDekSequence(resultNumberForDayRow);
+                appendRow(formatSequenceForDisplay(khongDekDaySequenceNums_Jata, jataYeamDayHighlightRules, selectedNumberOption, 0), jataYeamResultDisplay);
+
+                // Second Row (Month based on Current Day)
+                const effectiveDayNumberForMonth = watchInfo.currentDayNumber;
+                const M_jata_yeam = normalizeToSeven(effectiveDayNumberForMonth); 
+                const khongDekMonthSequenceNums_Jata = generateKhongDekSequence(M_jata_yeam);
+                appendRow(formatSequenceForDisplay(khongDekMonthSequenceNums_Jata, jataYeamMonthHighlightRules, selectedNumberOption, 1), jataYeamResultDisplay);
+
+                // Third Row (Year based on Current Month)
+                const Y_jata_yeam = getKhmerLunarMonthRepresentativeNumber(gregorianMonthIndex); 
+                const khongDekYearSequenceNums_Jata = generateKhongDekSequence(Y_jata_yeam);
+                appendRow(formatSequenceForDisplay(khongDekYearSequenceNums_Jata, jataYeamYearHighlightRules, selectedNumberOption, 2), jataYeamResultDisplay);
+
+                // Add horizontal line after the year row
+                jataYeamResultDisplay.innerHTML += '<hr class="my-4 border-t-1 border-black mx-auto w-full">';
+
+                // --- គណនាខុងបញ្ឆរ (Khong Banchhor) (ជួរទី ៤): ---
+                const khongBanchhorSequence_Jata = [];
+                for (let i = 0; i < 7; i++) {
+                    const sum = khongDekDaySequenceNums_Jata[i] + khongDekMonthSequenceNums_Jata[i] + khongDekYearSequenceNums_Jata[i];
+                    khongBanchhorSequence_Jata.push(sum);
+                }
+                appendRow(formatSequenceForDisplay(khongBanchhorSequence_Jata, jataYeamKhongBanchhorHighlightRules, selectedNumberOption, 3), jataYeamResultDisplay);
+
+                // --- គណនាខុងដេកទី ៨ (Khong Dek 8) (ជួរទី ៥): ---
+                const khongDekEightSequence_Jata = [];
+                for (let i = 0; i < 7; i++) {
+                    const normalizedSum = normalizeToSeven(khongBanchhorSequence_Jata[i]);
+                    khongDekEightSequence_Jata.push(normalizedSum);
+                }
+                appendRow(formatSequenceForDisplay(khongDekEightSequence_Jata, jataYeamKhongDekEightHighlightRules, selectedNumberOption, 4), jataYeamResultDisplay);
+
+                // --- គណនាខុងដេកទី ៦ (Khong Dek 6) (ជួរទី ៦): ---
+                const khongDekSixSequence_Jata = [];
+                for (let i = 0; i < 7; i++) {
+                    let multipliedValue = khongDekEightSequence_Jata[i] * 2;
+                    khongDekSixSequence_Jata.push(normalizeToSeven(multipliedValue));
+                }
+                appendRow(formatSequenceForDisplay(khongDekSixSequence_Jata, jataYeamKhongDekSixHighlightRules, selectedNumberOption, 5), jataYeamResultDisplay);
+
+                // --- គណនាខុងដេកទី ៧ (Khong Dek 7) (ជួរទី ៧): ---
+                const khongDekSevenSequence_Jata = [];
+                for (let i = 0; i < 7; i++) {
+                    let multipliedValue = khongDekSixSequence_Jata[i] * 2;
+                    khongDekSevenSequence_Jata.push(normalizeToSeven(multipliedValue));
+                }
+                appendRow(formatSequenceForDisplay(khongDekSevenSequence_Jata, jataYeamKhongDekSevenHighlightRules, selectedNumberOption, 6), jataYeamResultDisplay);
+
+                // Add horizontal line after the Khong Dek 7 row
+                jataYeamResultDisplay.innerHTML += '<hr class="my-4 border-t-1 border-black mx-auto w-full">';
+
+                // --- គណនាខុងដេកទី ៩ (Khong Dek 9) (ជួរទី ៨): ---
+                // The initial sum for Khong Dek Nine should still be based on the original D, M, Y values
+                // because it's a separate calculation logic.
+                const initialSumForNine_Jata = D_jata_yeam_raw + M_jata_yeam + Y_jata_yeam; 
+                const normalizedInitialSumForNine_Jata = normalizeToSeven(initialSumForNine_Jata);
+                const khongDekNineSequence_Jata = khongDekNineMappings[normalizedInitialSumForNine_Jata];
+                appendRow(formatSequenceForDisplay(khongDekNineSequence_Jata, jataYeamKhongDekNineHighlightRules, selectedNumberOption, 7), jataYeamResultDisplay);
+
+                // --- គណនាជួរចម្លើយចុងក្រោយ (Final Answer Row) (ជួរទី ៩): ---
+                const digit28_Jata = khongBanchhorSequence_Jata[6];
+                const digit56_Jata = khongDekNineSequence_Jata[6];
+                const sumOfLastDigits_Jata = digit28_Jata + digit56_Jata;
+                const finalAnswerDigitKey_Jata = normalizeToSeven(sumOfLastDigits_Jata); 
+                const khongDekLastSequence_Jata = finalAnswerMappings[finalAnswerDigitKey_Jata];
+                appendRow(formatSequenceForDisplay(khongDekLastSequence_Jata, jataYeamKhongDekLastHighlightRules, selectedNumberOption, 8), jataYeamResultDisplay);
+
+
+                jataYeamResultDisplay.classList.remove('hidden'); // SHOW the entire number sequence display
+                displayJataYeamFinalResults(selectedNumberOption); // Show "ជាដួងយាមទី:" and "ជាយាម:"
+
+                // Draw lines after all elements are in the DOM and rendered
+                setTimeout(drawLineGridJataYeam, 50);
+            });
+
+            // Chomras Ayu Chor Calculation (Reverted to original age/month/day calculation)
+            calculateChomrasAyuChorBtn.addEventListener('click', () => {
+                hideChomrasAyuChorMessages();
+
+                // Hide elements for Chomras Ayu Chor section when calculation result is shown
+                chomrasAyuChorTitle.classList.add('hidden');
+                chomrasAyuChorDescription.classList.add('hidden');
+                chomrasAyuChorInputControl.classList.add('hidden');
+
+
+                // Get birth date components
+                const birthDayInputVal = birthDayChomrasInput.value;
+                const birthMonthInputVal = birthMonthChomrasInput.value;
+                const birthYearInputVal = birthYearChomrasInput.value;
+
+                let birthDay = parseInt(birthDayInputVal);
+                let birthMonth = parseInt(birthMonthInputVal);
+                let birthYear = parseInt(birthYearInputVal);
+                
+                // Always use the current date as the comparison date
+                const comparisonDate = new Date();
+
+                // Input validation for birth date
+                if (isNaN(birthDay) || birthDayInputVal.trim() === '' || birthDay < 1 || birthDay > 31) {
+                    showChomrasAyuChorErrorMessage('សូមបញ្ចូលថ្ងៃកំណើតជាលេខពី 1 ដល់ 31។');
+                    return;
+                }
+                if (isNaN(birthMonth) || birthMonthInputVal.trim() === '' || birthMonth < 1 || birthMonth > 12) {
+                    showChomrasAyuChorErrorMessage('សូមបញ្ចូលខែកំណើតជាលេខពី 1 ដល់ 12។');
+                    return;
+                }
+                if (isNaN(birthYear) || birthYearInputVal.trim() === '' || birthYear < 1900 || birthYear > comparisonDate.getFullYear()) {
+                    showChomrasAyuChorErrorMessage(`សូមបញ្ចូលឆ្នាំកំណើតក្នុងចន្លោះឆ្នាំ 1900 ដល់ ${comparisonDate.getFullYear()}។`);
+                    return;
+                }
+
+                // Validate if the birth date is a valid date
+                const birthDate = new Date(birthYear, birthMonth - 1, birthDay); // Month is 0-indexed
+                if (birthDate.getFullYear() !== birthYear || (birthDate.getMonth() + 1) !== birthMonth || birthDate.getDate() !== birthDay) {
+                    showChomrasAyuChorErrorMessage('ថ្ងៃ ខែ ឆ្នាំ កំណើតមិនត្រឹមត្រូវទេ។');
+                    return;
+                }
+
+                // Validate if birth date is in the future relative to the current date
+                if (birthDate > comparisonDate) {
+                    showChomrasAyuChorErrorMessage('ថ្ងៃ ខែ ឆ្នាំ កំណើតមិនអាចធំជាងថ្ងៃបច្ចុប្បន្នទេ។');
+                    return;
+                }
+                
+                // Perform calculation with borrowing logic using comparisonDate
+                let calculatedYears = comparisonDate.getFullYear() - birthYear;
+                let calculatedMonths = comparisonDate.getMonth() + 1 - birthMonth;
+                let calculatedDays = comparisonDate.getDate() - birthDay;
+
+                // 1. Adjust for days - ALWAYS assume 30 days per month as requested
+                if (calculatedDays < 0) {
+                    calculatedMonths--; // Decrement month
+                    const daysInPrevMonth = 30; // MODIFIED: Always assume 30 days for previous month
+                    calculatedDays += daysInPrevMonth; 
+                }
+
+                // 2. Adjust for months
+                if (calculatedMonths < 0) {
+                    calculatedYears--; // Decrement year
+                    calculatedMonths += 12; // Add 12 months
+                }
+                
+                // Populate the original result display elements
+                fullAgeValue.textContent = calculatedYears;
+                currentMonthValue.textContent = calculatedMonths;
+                currentDayValue.textContent = calculatedDays;
+
+                // Conditionally show "អាយុកំពុងចរ"
+                if (calculatedMonths >= 1 || calculatedDays >= 1) {
+                    currentAgeValue.textContent = calculatedYears + 1;
+                    currentAgeLine.classList.remove('hidden');
+                } else {
+                    currentAgeLine.classList.add('hidden'); // Hide if not applicable
+                }
+
+                chomrasAyuChorResultDisplay.classList.remove('hidden');
+
+            });
+
+            // Event listener for the new "គណនាថ្មី" button in Chomras Ayu Chor
+            createNewChomrasBtn.addEventListener('click', () => {
+                hideChomrasAyuChorMessages();
+                birthDayChomrasInput.value = '';
+                birthMonthChomrasInput.value = '';
+                birthYearChomrasInput.value = ''; // Clears the birthYearInput
+                currentAgeLine.classList.add('hidden'); // Ensure current age line is hidden on reset
+
+                // Show elements for Chomras Ayu Chor section when resetting
+                chomrasAyuChorTitle.classList.remove('hidden');
+                chomrasAyuChorDescription.classList.remove('hidden');
+                chomrasAyuChorInputControl.classList.remove('hidden');
+            });
+
+
+            // Khmer Zodiac Animals Array (0-indexed for display and internal modulo calculations)
+            // The mapping provided by the user (1-12) will be used for dropdown values and internal conversion.
+            const khmerZodiacAnimals = [
+                'ជូត (Mouse)', 'ឆ្លូវ (Ox)', 'ខាល (Tiger)', 'ថោះ (Rabbit)',
+                'រោង (Dragon)', 'ម្សាញ់ (Snake)', 'មមៃ (Horse)', 'មមា (Goat)',
+                'វក (Monkey)', 'រកា (Rooster)', 'ចរ (Dog)', 'កុរ (Pig)'
+            ];
+
+            // Populate the birthAnimalYearZodiacSelect dropdown (now unused)
+            // const populateZodiacYearDropdown = () => {
+            //     birthAnimalYearZodiacSelect.innerHTML = '<option value="">ជ្រើសរើសឆ្នាំសត្វ</option>'; // Keep the default option
+            //     // Loop through 0-indexed khmerZodiacAnimals array
+            //     khmerZodiacAnimals.forEach((animalName, index) => {
+            //         const option = document.createElement('option');
+            //         // Set the value to be 1-indexed number as provided by user
+            //         option.value = index + 1; 
+            //         option.textContent = animalName;
+            //         birthAnimalYearZodiacSelect.appendChild(option);
+            //     });
+            // };
+            // Call on DOMContentLoaded
+            // populateZodiacYearDropdown();
+
+            // Zodiac Age Calculator Logic (now unused)
+            // calculateZodiacAgeBtn.addEventListener('click', () => {
+            //     hideZodiacAgeMessages();
+
+            //     const selectedBirthAnimalYearNumber = birthAnimalYearZodiacSelect.value; // This is now 1-12
+            //     const selectedAgeTier = ageTierZodiacSelect.value;
+                
+            //     // Input validation for new select fields
+            //     if (selectedBirthAnimalYearNumber === '' || selectedBirthAnimalYearNumber === null) {
+            //         showZodiacAgeErrorMessage('សូមជ្រើសរើសឆ្នាំកំណើត (នក្សត្រ)។');
+            //         return;
+            //     }
+            //     if (selectedAgeTier === '' || selectedAgeTier === null) {
+            //         showZodiacAgeErrorMessage('សូមជ្រើសរើសខ្ទង់អាយុរបស់មនុស្ស។');
+            //         return;
+            //     }
+
+            //     // Hide elements for Zodiac Age Calculator section when calculation result is shown
+            //     zodiacAgeCalculatorSection.querySelector('h1').classList.add('hidden');
+            //     zodiacAgeCalculatorSection.querySelector('p').classList.add('hidden');
+            //     zodiacAgeCalculatorSection.querySelector('.space-y-4').classList.add('hidden'); // Hide input controls
+
+            //     // Convert selected values
+            //     const birthZodiacNumber = parseInt(selectedBirthAnimalYearNumber); // This is 1-12
+            //     const ageTier = parseInt(selectedAgeTier);
+
+            //     // --- CALCULATION FOR "អាយុចរឆ្នាំនក្សត្រ" BASED ON NEW RULES ---
+
+            //     // 1. Base calculation: selectedAgeTier + currentZodiacNumber
+            //     let baseResult = ageTier + currentZodiacNumber;
+
+            //     // 2. Deduction: If selectedAgeTier > 20, deduct 8. Otherwise, deduct 0.
+            //     let deduction = 0;
+            //     if (ageTier > 20) {
+            //         deduction = 8;
+            //     }
+
+            //     // 3. Final result is baseResult minus deduction
+            //     const currentMovingZodiacResult = baseResult - deduction;
+
+            //     // Populate the result display elements for zodiac age calculator
+            //     // Use the 0-indexed arrays for display, converting dropdown value back to 0-indexed for lookup.
+            //     birthZodiacValue.textContent = khmerZodiacAnimals[birthZodiacNumber - 1]; // Convert 1-indexed to 0-indexed for display array lookup
+            //     currentZodiacValue.textContent = khmerZodiacAnimals[currentZodiac0Indexed];
+            //     selectedAgeTierValue.textContent = ageTier;
+            //     currentMovingZodiacValue.textContent = currentMovingZodiacResult + ' ឆ្នាំ'; // Add "ឆ្នាំ" for clarity
+                
+            //     zodiacAgeResultDisplay.classList.remove('hidden');
+            // });
+
+            // Zodiac Age Calculator "Create New" button is no longer active
+            // createNewZodiacBtn.addEventListener('click', () => {
+            //     hideZodiacAgeMessages();
+            //     birthAnimalYearZodiacSelect.value = ''; 
+            //     ageTierZodiacSelect.value = '';
+
+            //     zodiacAgeCalculatorSection.querySelector('h1').classList.remove('hidden');
+            //     zodiacAgeCalculatorSection.querySelector('p').classList.remove('hidden');
+            //     zodiacAgeCalculatorSection.querySelector('.space-y-4').classList.remove('hidden');
+            // });
+
+
+            // Initially hide the new creation section and Jata Yeam section and Zodiac Age Calculator section
+            newCreationSection.classList.add('hidden');
+            jataYeamOddhakalSection.classList.add('hidden');
+            chomrasAyuChorSection.classList.add('hidden'); 
+            // zodiacAgeCalculatorSection.classList.add('hidden'); // This section is now permanently hidden
+
+
+            // Handle clicks on dropdown items
+            plusBtn.addEventListener('click', () => {
+                additionalOptionsDropdown.classList.toggle('hidden');
+            });
+
+            dropdownItems.forEach(item => {
+                item.addEventListener('click', (event) => {
+                    event.preventDefault(); // Prevent default link behavior
+                    const action = event.target.dataset.action;
+                    additionalOptionsDropdown.classList.add('hidden'); // Hide dropdown after selection
+
+                    // Hide all main calculator parts and other sections first
+                    mainCalculator.classList.add('hidden');
+                    jataYeamOddhakalSection.classList.add('hidden');
+                    chomrasAyuChorSection.classList.add('hidden');
+                    // zodiacAgeCalculatorSection.classList.add('hidden'); // This is not needed anymore
+                    dropdownContainer.classList.add('hidden'); // Hide the dropdown container (plus button)
+                    profilePicture.parentElement.classList.add('hidden'); // Hide the anchor tag (which contains the profile picture)
+
+                    // Clear any running intervals
+                    if (updateIntervalId) {
+                        clearInterval(updateIntervalId);
+                        updateIntervalId = null;
+                    }
+                    if (updateCurrentDateIntervalId) { 
+                        clearInterval(updateCurrentDateIntervalId);
+                        updateCurrentDateIntervalId = null;
+                    }
+
+                    if (action === 'jata-yeam') {
+                        jataYeamOddhakalSection.classList.remove('hidden'); // Show Jata Yeam section
+                        // Clear any previous messages and results from this new section
+                        hideJataYeamMessages(); // Use the dedicated hide function
+
+                        // Show initial elements for Jata Yeam section
+                        jataYeamTitle.classList.remove('hidden');
+                        jataYeamDescription.classList.remove('hidden');
+                        jataYeamInputControl.classList.remove('hidden'); // This includes the calculate button
+                        jataYeamDateTimeDisplay.classList.remove('hidden'); // Show date time display initially
+                        jataYeamNumberOptionControl.classList.remove('hidden'); // Show "ផ្លាស់ប្តូរលេខ:"
+
+                        lineDrawingCanvasJataYeam.style.display = 'none'; // Ensure canvas is hidden until calculation
+                        ctxJataYeam.clearRect(0, 0, lineDrawingCanvasJataYeam.width, lineDrawingCanvasJataYeam.height);
+
+                        // Start updating time, day, month automatically
+                        updateJataYeamDateTimeDisplay(); // Initial update
+                        updateIntervalId = setInterval(updateJataYeamDateTimeDisplay, 1000); // Update every second
+
+                        // The final results ("ជាដួងយាមទី:" and "ជាយាម:") are not displayed automatically on entry
+                        // as per user's latest request to hide them after calculation.
+                        // displayJataYeamFinalResults(jataYeamNumberOptionSelect.value); // Removed this call
+                    } else if (action === 'chomras-ayu-chor') {
+                        chomrasAyuChorSection.classList.remove('hidden'); // Show Chomras Ayu Chor section
+                        hideChomrasAyuChorMessages(); // Clear messages
+                        // Clear input fields when entering this section
+                        birthDayChomrasInput.value = '';
+                        birthMonthChomrasInput.value = '';
+                        birthYearChomrasInput.value = ''; // Clears the birthYearInput
+                        currentAgeLine.classList.add('hidden'); // Ensure current age line is hidden on entry
+
+                        // Show title, description, and input control when entering the section
+                        chomrasAyuChorTitle.classList.remove('hidden');
+                        chomrasAyuChorDescription.classList.remove('hidden');
+                        chomrasAyuChorInputControl.classList.remove('hidden');
+
+                        // Start updating current date display automatically
+                        updateCurrentDateDisplayChomras(); // Initial update
+                        // Update every second to keep current date accurate
+                        updateCurrentDateIntervalId = setInterval(updateCurrentDateDisplayChomras, 1000); 
+                    }
+                    // The 'kanana-zodiac-age' action case is removed as the option is removed
+                });
+            });
+            // Click outside to close dropdown
+            document.addEventListener('click', (event) => {
+                // Ensure the click is outside the button AND the dropdown itself
+                if (plusBtn && additionalOptionsDropdown && !plusBtn.contains(event.target) && !additionalOptionsDropdown.contains(event.target)) {
+                    additionalOptionsDropdown.classList.add('hidden');
+                }
+            });
+
+            // Add event listener to the number option select for Jata Yeam to update final results
+            // This is no longer needed as the final results are hidden after calculation
+            // jataYeamNumberOptionSelect.addEventListener('change', () => {
+            //     displayJataYeamFinalResults(jataYeamNumberOptionSelect.value);
+            // });
+
+            // --- Popup Modal Logic ---
+            const POPUP_INTERVAL = 1 * 60 * 1000; // 1 minute in milliseconds (changed from 5 minutes)
+
+            const showContactModal = () => {
+                contactModal.classList.remove('hidden');
+                resetPopupTimer(); // Reset timer when modal is shown
+            };
+
+            const hideContactModal = () => {
+                contactModal.classList.add('hidden');
+                resetPopupTimer(); // Reset timer when modal is hidden
+            };
+
+            const resetPopupTimer = () => {
+                if (popupTimerId) {
+                    clearTimeout(popupTimerId);
+                }
+                popupTimerId = setTimeout(showContactModal, POPUP_INTERVAL);
+            };
+
+            // Event listeners to reset the timer on user activity
+            document.body.addEventListener('mousemove', resetPopupTimer);
+            document.body.addEventListener('keypress', resetPopupTimer);
+            document.body.addEventListener('click', resetPopupTimer);
+
+            // Initial call to show modal on page load
+            showContactModal(); // This will show it immediately and start the timer for 1 minute
+
+            // Close modal when close button is clicked
+            closeModalBtn.addEventListener('click', hideContactModal);
+
+            // Close modal when clicking outside the modal content
+            contactModal.addEventListener('click', (event) => {
+                if (event.target === contactModal) { // Check if the click was on the overlay itself
+                    hideContactModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
